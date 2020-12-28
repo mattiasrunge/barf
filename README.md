@@ -1,2 +1,3 @@
 # rft
-Remote(rsync) FileTransfer CLI
+
+Remote File Transfer CLI that uses rsync.
