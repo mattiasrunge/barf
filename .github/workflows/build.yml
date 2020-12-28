@@ -1,6 +1,9 @@
 name: Build and release binaries
 
-on: push
+on:
+  push:
+    tags:
+      - '*'
 
 jobs:
 
@@ -25,20 +28,21 @@ jobs:
             dep ensure
         fi
 
+    - name: Get the version
+      run: |
+        echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+
     - name: Build binaries
       run: |
-        mkdir build
-        GOOS=linux GOARCH=arm GOARM=5 go build -v -o build/rft-arm5 .
-        GOOS=linux GOARCH=arm GOARM=7 go build -v -o build/rft-arm7 .
-        GOOS=linux GOARCH=amd64 go build -v -o build/rft-x86_64 .
+        ./build.sh
 
     - name: Create Release
       uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
+        tag_name: ${{ VERSION }}
+        release_name: Release ${{ VERSION }}
         body: |
           Changes in this Release
           - First Change
@@ -49,6 +53,6 @@ jobs:
     - name:
       uses: AButler/upload-release-assets@v2.0
       with:
-        files: 'build/*'
+        files: 'build/*.tar.gz'
         repo-token: ${{ secrets.GITHUB_TOKEN }}
-        release-tag: ${{ github.ref }}
+        release-tag: ${{ VERSION }}
