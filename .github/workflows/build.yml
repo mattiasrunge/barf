@@ -30,7 +30,7 @@ jobs:
         mkdir build
         GOOS=linux GOARCH=arm GOARM=5 go build -v -o build/rft-arm5 .
         GOOS=linux GOARCH=arm GOARM=7 go build -v -o build/rft-arm7 .
-        GOOS=linux GOARCH=x86_64 go build -v -o build/rft-x86_64 .
+        GOOS=linux GOARCH=amd64 go build -v -o build/rft-x86_64 .
 
     - name: Create Release
       uses: actions/create-release@v1
