@@ -34,7 +34,7 @@ jobs:
 
     - name: Build binaries
       run: |
-        ./build.sh
+        ./build.sh ${{ VERSION }}
 
     - name: Create Release
       uses: actions/create-release@v1

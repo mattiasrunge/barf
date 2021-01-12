@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 
 	"rft/cmd/rft/run"
@@ -14,7 +15,7 @@ func main() {
 	run.CheckDaemon()
 
 	app := cli.App(config.Name, config.Description)
-	app.Version("v version", config.Version)
+	app.Version("v version", fmt.Sprintf("%s\n%s\n%s", config.Version, config.BuildChecksum, config.BuildTime))
 
 	app.Action = func() {
 		run.StartCLI(func() error {

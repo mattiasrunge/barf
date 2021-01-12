@@ -1,12 +1,11 @@
 package rsync
 
 import (
-	"fmt"
 	"regexp"
 	"strconv"
 	"strings"
 
-	"github.com/c2h5oh/datasize"
+	"github.com/alecthomas/units"
 )
 
 func parseByteStr(str string) int64 {
@@ -21,18 +20,13 @@ func parseByteStr(str string) int64 {
 }
 
 func parseSpeedStr(str string) float64 {
-	var v datasize.ByteSize
-	err := v.UnmarshalText([]byte("260MB"))
-
-	// b, err := units.ParseBase2Bytes(strings.ToUpper(str))
+	b, err := units.ParseBase2Bytes(strings.ToUpper(str))
 
 	if err != nil {
-		fmt.Println("str:", str)
-		fmt.Println("err:", err)
 		return -1
 	}
 
-	return float64(v.Bytes())
+	return float64(b)
 }
 
 /*

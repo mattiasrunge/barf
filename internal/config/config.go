@@ -9,8 +9,11 @@ import (
 
 const DaemonVariable = "_RFT_DAEMON_"
 const Name = "rft"
-const Version = "v0.0.0"
 const Description = "A tool for doing robust file operations."
+
+var Version = "v0.0.0"
+var BuildTime = "unknown"
+var BuildChecksum = "unknown"
 
 var ConfigDir = ""
 var PidFile = ""
