@@ -41,8 +41,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ VERSION }}
-        release_name: Release ${{ VERSION }}
+        tag_name: ${{ env.VERSION }}
+        release_name: Release ${{ env.VERSION }}
         body: |
           Changes in this Release
           - First Change
@@ -55,4 +55,4 @@ jobs:
       with:
         files: 'build/*.tar.gz'
         repo-token: ${{ secrets.GITHUB_TOKEN }}
-        release-tag: ${{ VERSION }}
+        release-tag: ${{ env.VERSION }}
