@@ -40,12 +40,12 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ env.VERSION }}
+        tag_name: ${{ env.VERSION }}-release
         release_name: Release ${{ env.VERSION }}
         body: |
           Changes in this Release
-          - First Change
-          - Second Change
+          - Stuff
+          - And more stuff
         draft: false
         prerelease: false
 
