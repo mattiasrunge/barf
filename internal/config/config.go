@@ -28,7 +28,11 @@ func init() {
 		log.Fatalf("Could not get user, %+v", err)
 	}
 
-	ConfigDir = path.Join(usr.HomeDir, ".config", Name)
+	parentDir := path.Join(usr.HomeDir, ".config")
+
+	os.Mkdir(parentDir, 0700)
+
+	ConfigDir = path.Join(parentDir, Name)
 
 	os.Mkdir(ConfigDir, 0700)
 

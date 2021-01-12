@@ -8,6 +8,7 @@ import (
 	"rft/internal/config"
 	"rft/internal/proc/daemon"
 	"rft/internal/proc/life"
+	"rft/internal/proc/logfile"
 	"rft/internal/proc/pidfile"
 	"rft/internal/runner"
 )
@@ -35,7 +36,7 @@ func startDaemon() error {
 
 	life.Start()
 
-	// logfile.StartLogging()
+	logfile.StartLogging()
 	err := pidfile.Write(os.Getpid())
 
 	if err != nil {

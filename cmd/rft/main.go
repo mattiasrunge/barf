@@ -53,18 +53,18 @@ func main() {
 		}
 	})
 
-	app.Command("dummy", "starts dummy operations", func(cmd *cli.Cmd) {
-		cmd.Spec = "[ITER]"
-		i := cmd.StringArg("ITER", "10", "Iterations to run")
+	// app.Command("dummy", "starts dummy operations", func(cmd *cli.Cmd) {
+	// 	cmd.Spec = "[ITER]"
+	// 	i := cmd.StringArg("ITER", "10", "Iterations to run")
 
-		cmd.Action = func() {
-			run.StartCLI(func() error {
-				return actions.Dummy(map[string]interface{}{
-					"iterations": i,
-				})
-			})
-		}
-	})
+	// 	cmd.Action = func() {
+	// 		run.StartCLI(func() error {
+	// 			return actions.Dummy(map[string]interface{}{
+	// 				"iterations": i,
+	// 			})
+	// 		})
+	// 	}
+	// })
 
 	app.Run(os.Args)
 }
