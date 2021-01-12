@@ -28,12 +28,11 @@ jobs:
             dep ensure
         fi
 
-    - name: Get the version
-      run: |
-        echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
-
     - name: Build binaries
       run: |
+        VERSION=${GITHUB_REF/refs\/tags\//}
+        echo "{VERSION}={$VERSION}" >> $GITHUB_ENV
+        echo $VERSION
         ./build.sh $VERSION
 
     - name: Create Release
