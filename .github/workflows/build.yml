@@ -54,4 +54,4 @@ jobs:
       with:
         files: 'build/*.tar.gz'
         repo-token: ${{ secrets.GITHUB_TOKEN }}
-        release-tag: ${{ env.VERSION }}
+        release-tag: ${{ env.VERSION }}-release
