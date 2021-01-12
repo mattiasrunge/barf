@@ -31,7 +31,7 @@ jobs:
     - name: Build binaries
       run: |
         VERSION=${GITHUB_REF/refs\/tags\//}
-        echo "{VERSION}={$VERSION}" >> $GITHUB_ENV
+        echo "VERSION=$VERSION" >> $GITHUB_ENV
         echo $VERSION
         ./build.sh $VERSION
 
