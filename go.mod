@@ -1,4 +1,4 @@
-module rft
+module barf
 
 go 1.15
 
@@ -11,7 +11,6 @@ require (
 	github.com/logrusorgru/aurora v2.0.3+incompatible
 	github.com/mattiasrunge/goterminal v0.0.0-20210107142543-27ff620eec35
 	github.com/mattn/go-isatty v0.0.12 // indirect
-	github.com/mitchellh/go-homedir v1.1.0
 	github.com/rs/xid v1.2.1
 	golang.org/x/sys v0.0.0-20201218084310-7d0127a74742 // indirect
 )

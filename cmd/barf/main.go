@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"os"
 
-	"rft/cmd/rft/run"
-	"rft/internal/actions"
-	"rft/internal/config"
+	"barf/cmd/barf/run"
+	"barf/internal/actions"
+	"barf/internal/config"
 
 	cli "github.com/jawher/mow.cli"
 )
@@ -17,8 +17,10 @@ func main() {
 	app := cli.App(config.Name, config.Description)
 	app.Version("v version", fmt.Sprintf("%s\n%s\n%s", config.Version, config.BuildChecksum, config.BuildTime))
 
+	width := app.IntOpt("width, w", 0, "terminal width to use, if not set (or zero) it will be auto detected and failing that set to 132")
+
 	app.Action = func() {
-		run.StartCLI(func() error {
+		run.StartCLI(*width, func() error {
 			return actions.Monitor(map[string]interface{}{})
 		})
 	}
@@ -30,7 +32,7 @@ func main() {
 		ids := cmd.StringsArg("IDS", nil, "IDs to monitor")
 
 		cmd.Action = func() {
-			run.StartCLI(func() error {
+			run.StartCLI(*width, func() error {
 				return actions.Monitor(map[string]interface{}{
 					"ids": ids,
 				})
@@ -44,7 +46,7 @@ func main() {
 		dst := cmd.StringArg("DST", "", "Destination where to copy files to")
 
 		cmd.Action = func() {
-			run.StartCLI(func() error {
+			run.StartCLI(*width, func() error {
 				return actions.Copy(map[string]interface{}{
 					"from": src,
 					"to":   dst,
@@ -53,18 +55,20 @@ func main() {
 		}
 	})
 
-	// app.Command("dummy", "starts dummy operations", func(cmd *cli.Cmd) {
-	// 	cmd.Spec = "[ITER]"
-	// 	i := cmd.StringArg("ITER", "10", "Iterations to run")
+	if !config.IsProduction() {
+		app.Command("dummy", "starts dummy operations", func(cmd *cli.Cmd) {
+			cmd.Spec = "[ITER]"
+			i := cmd.StringArg("ITER", "10", "Iterations to run")
 
-	// 	cmd.Action = func() {
-	// 		run.StartCLI(func() error {
-	// 			return actions.Dummy(map[string]interface{}{
-	// 				"iterations": i,
-	// 			})
-	// 		})
-	// 	}
-	// })
+			cmd.Action = func() {
+				run.StartCLI(*width, func() error {
+					return actions.Dummy(map[string]interface{}{
+						"iterations": i,
+					})
+				})
+			}
+		})
+	}
 
 	app.Run(os.Args)
 }

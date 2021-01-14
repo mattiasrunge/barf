@@ -7,8 +7,8 @@ import (
 	"strconv"
 	"strings"
 
-	"rft/internal/cmd"
-	"rft/internal/op"
+	"barf/internal/cmd"
+	"barf/internal/op"
 )
 
 type dummyRunner struct {
@@ -30,7 +30,7 @@ func (r *dummyRunner) init(operation *op.Operation) {
 func (r *dummyRunner) Start() {
 	dirname, _ := os.Getwd()
 	args := []string{
-		path.Join(dirname, "dummy.sh"),
+		path.Join(dirname, "scripts", "dummy.sh"),
 		r.operation.Args["iterations"].(string),
 	}
 

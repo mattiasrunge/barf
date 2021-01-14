@@ -4,9 +4,9 @@ import (
 	"errors"
 	"time"
 
-	"rft/internal/com/channel"
-	"rft/internal/com/protocol"
-	"rft/internal/op"
+	"barf/internal/com/channel"
+	"barf/internal/com/protocol"
+	"barf/internal/op"
 )
 
 // CreateOperation sends a create request

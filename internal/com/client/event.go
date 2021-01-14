@@ -1,6 +1,6 @@
 package client
 
-import "rft/internal/op"
+import "barf/internal/op"
 
 type operationCreatedHandler func(op.Operation)
 type operationStatusHandler func(op.OperationID, *op.OperationStatus)

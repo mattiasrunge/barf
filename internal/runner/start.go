@@ -1,7 +1,7 @@
 package runner
 
 import (
-	"rft/internal/op"
+	"barf/internal/op"
 )
 
 func start(operation *op.Operation) error {

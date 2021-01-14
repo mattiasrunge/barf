@@ -1,9 +1,9 @@
 package actions
 
 import (
-	"rft/internal/com/client"
-	"rft/internal/op"
-	"rft/internal/ui"
+	"barf/internal/com/client"
+	"barf/internal/op"
+	"barf/internal/ui"
 )
 
 // Dummy creates a new dummy operation

@@ -1,8 +1,8 @@
 package journal
 
 import (
-	"rft/internal/com/server"
-	"rft/internal/op"
+	"barf/internal/com/server"
+	"barf/internal/op"
 )
 
 // UpdateOperationStatus sets the operation status

@@ -4,13 +4,13 @@ import (
 	"fmt"
 	"os"
 
-	"rft/internal/com/socket"
-	"rft/internal/config"
-	"rft/internal/proc/daemon"
-	"rft/internal/proc/life"
-	"rft/internal/proc/logfile"
-	"rft/internal/proc/pidfile"
-	"rft/internal/runner"
+	"barf/internal/com/socket"
+	"barf/internal/config"
+	"barf/internal/proc/daemon"
+	"barf/internal/proc/life"
+	"barf/internal/proc/logfile"
+	"barf/internal/proc/pidfile"
+	"barf/internal/runner"
 )
 
 // CheckDaemon starts the background daemon process if that is set

@@ -4,7 +4,7 @@ import (
 	"log"
 	"os"
 
-	"rft/internal/config"
+	"barf/internal/config"
 )
 
 // StartLogging redirectes stdout and stderr to a log file

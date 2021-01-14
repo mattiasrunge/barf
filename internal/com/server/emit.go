@@ -1,9 +1,9 @@
 package server
 
 import (
-	"rft/internal/com/channel"
-	"rft/internal/com/protocol"
-	"rft/internal/op"
+	"barf/internal/com/channel"
+	"barf/internal/com/protocol"
+	"barf/internal/op"
 )
 
 // OperationCreated broadcasts a operation event

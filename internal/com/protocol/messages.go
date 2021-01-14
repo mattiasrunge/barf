@@ -1,7 +1,7 @@
 package protocol
 
 import (
-	"rft/internal/op"
+	"barf/internal/op"
 )
 
 // Message defines the parameters for a message

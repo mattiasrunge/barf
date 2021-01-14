@@ -5,8 +5,8 @@ import (
 	"net"
 	"os"
 
-	"rft/internal/config"
-	"rft/internal/proc/life"
+	"barf/internal/config"
+	"barf/internal/proc/life"
 )
 
 var serverSocket net.Listener = nil

@@ -1,8 +1,8 @@
 package rsync
 
 import (
-	"rft/internal/cmd"
-	"rft/internal/utils"
+	"barf/internal/cmd"
+	"barf/internal/utils"
 )
 
 type RsyncStatus struct {

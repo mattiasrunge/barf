@@ -7,13 +7,14 @@ import (
 	"path"
 )
 
-const DaemonVariable = "_RFT_DAEMON_"
-const Name = "rft"
+const DaemonVariable = "_barf_DAEMON_"
+const Name = "barf"
 const Description = "A tool for doing robust file operations."
 
 var Version = "v0.0.0"
 var BuildTime = "unknown"
 var BuildChecksum = "unknown"
+var production = "no"
 
 var ConfigDir = ""
 var PidFile = ""
@@ -36,10 +37,15 @@ func init() {
 
 	os.Mkdir(ConfigDir, 0700)
 
-	PidFile = path.Join(ConfigDir, "rft.pid")
-	LogFile = path.Join(ConfigDir, "rft.log")
-	SocketFile = path.Join(ConfigDir, "rft.sock")
+	PidFile = path.Join(ConfigDir, "barf.pid")
+	LogFile = path.Join(ConfigDir, "barf.log")
+	SocketFile = path.Join(ConfigDir, "barf.sock")
 	JournalDir = path.Join(ConfigDir, "journal")
 
 	os.Mkdir(JournalDir, 0700)
+}
+
+// IsProduction returns true if production build
+func IsProduction() bool {
+	return production != "no"
 }

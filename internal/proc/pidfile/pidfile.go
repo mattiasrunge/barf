@@ -5,7 +5,7 @@ import (
 	"os"
 	"strconv"
 
-	"rft/internal/config"
+	"barf/internal/config"
 )
 
 func Read() (int, error) {

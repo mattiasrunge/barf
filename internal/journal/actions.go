@@ -3,8 +3,8 @@ package journal
 import (
 	"errors"
 
-	"rft/internal/com/server"
-	"rft/internal/op"
+	"barf/internal/com/server"
+	"barf/internal/op"
 )
 
 func create(opType op.OperationType, args op.OperationArgs) (*op.Operation, error) {

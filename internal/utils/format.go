@@ -1,4 +1,4 @@
-package ui
+package utils
 
 import (
 	"strings"
@@ -6,7 +6,7 @@ import (
 	"github.com/c2h5oh/datasize"
 )
 
-func byteCountSI(b int64) string {
+func ByteCountSI(b int64) string {
 	bs := datasize.ByteSize(b)
 
 	return strings.ReplaceAll(bs.HumanReadable(), " ", "")

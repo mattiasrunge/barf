@@ -3,9 +3,9 @@ package runner
 import (
 	"fmt"
 
-	"rft/internal/journal"
-	"rft/internal/op"
-	"rft/internal/runner/runners"
+	"barf/internal/journal"
+	"barf/internal/op"
+	"barf/internal/runner/runners"
 )
 
 var activeRunners []runners.Runner

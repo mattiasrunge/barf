@@ -8,19 +8,25 @@ import (
 	"sync"
 	"time"
 
+	"barf/internal/utils"
+
 	"github.com/acarl005/stripansi"
 	"github.com/logrusorgru/aurora"
 	"github.com/mattiasrunge/goterminal"
 )
 
 var writer *goterminal.Writer
-var width = 80
+var width = 132
 var mu sync.Mutex
 
 func replaceAtIndex(in string, r rune, i int) string {
-	out := []rune(in)
-	out[i] = r
-	return string(out)
+	if i < len(in) {
+		out := []rune(in)
+		out[i] = r
+		return string(out)
+	}
+
+	return in
 }
 
 func sLen(s string) int {
@@ -56,9 +62,9 @@ func getFinished(o *operationWithStatus) string {
 }
 
 func getByteProgress(o *operationWithStatus) string {
-	totalDiffStr := byteCountSI(o.status.BytesDiffTotal)
-	totalStr := byteCountSI(o.status.BytesTotal)
-	doneStr := aurora.BrightGreen(byteCountSI(o.status.BytesDone)).String()
+	totalDiffStr := utils.ByteCountSI(o.status.BytesDiffTotal)
+	totalStr := utils.ByteCountSI(o.status.BytesTotal)
+	doneStr := aurora.BrightGreen(utils.ByteCountSI(o.status.BytesDone)).String()
 
 	if o.status.Finished && o.status.ExitCode == 0 {
 		totalDiffStr = aurora.BrightGreen(totalDiffStr).String()
@@ -98,7 +104,7 @@ func getProgress(o *operationWithStatus) string {
 }
 
 func getSpeed(o *operationWithStatus) string {
-	return fmt.Sprintf("%s/s", byteCountSI(int64(o.status.Speed)))
+	return fmt.Sprintf("%s/s", utils.ByteCountSI(int64(o.status.Speed)))
 }
 
 func getTimeInfo(o *operationWithStatus) string {
@@ -135,7 +141,7 @@ func getProgressBar(o *operationWithStatus, width int, text string) string {
 	bars := aurora.BgBrightGreen(barsDone).Black().String() + aurora.BgGray(4, barsLeft).String()
 
 	if o.status.Finished && o.status.ExitCode > 0 {
-		bars = aurora.BgBrightRed(barsDone).Black().String() + aurora.BgGray(4, barsLeft).String()
+		bars = aurora.BgBrightRed(barsDone).Black().String() + aurora.BgGray(4, barsLeft).BrightRed().String()
 	}
 
 	return fmt.Sprintf("%s%s%s", barPrefix, bars, barSuffix)
@@ -159,15 +165,15 @@ func update() {
 		barText := ""
 
 		if len(step) > 0 {
-			barText = fmt.Sprintf(" %s...", step)
+			barText = fmt.Sprintf("%s...", step)
 		}
 
 		if len(fileName) > 0 {
-			barText = fmt.Sprintf(" %s %s...", step, fileName)
+			barText = fmt.Sprintf("%s %s...", step, fileName)
 		}
 
 		if len(finished) > 0 {
-			barText = fmt.Sprintf(" %s", finished)
+			barText = fmt.Sprintf("%s", finished)
 		}
 
 		progressPrefix := fmt.Sprintf(" %s. %s ", index, title)

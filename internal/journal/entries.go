@@ -9,7 +9,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"rft/internal/op"
+	"barf/internal/op"
 )
 
 type entry struct {

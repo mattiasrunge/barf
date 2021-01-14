@@ -3,8 +3,9 @@ package runners
 import (
 	"errors"
 
-	"rft/internal/cmd"
-	"rft/internal/op"
+	"barf/internal/cmd"
+	"barf/internal/config"
+	"barf/internal/op"
 )
 
 type statushandler func(status *op.OperationStatus)
@@ -24,7 +25,7 @@ type Runner interface {
 func NewRunner(operation *op.Operation) (Runner, error) {
 	var r Runner
 
-	if operation.Type == op.OpDummy {
+	if operation.Type == op.OpDummy && !config.IsProduction() {
 		r = &dummyRunner{}
 	} else if operation.Type == op.OpCopy {
 		r = &copyRunner{}

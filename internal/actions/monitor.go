@@ -1,10 +1,10 @@
 package actions
 
 import (
-	"rft/internal/com/client"
-	"rft/internal/typeconv"
-	"rft/internal/ui"
-	"rft/internal/utils"
+	"barf/internal/com/client"
+	"barf/internal/typeconv"
+	"barf/internal/ui"
+	"barf/internal/utils"
 )
 
 // Monitor starts monitoring all or specified operations

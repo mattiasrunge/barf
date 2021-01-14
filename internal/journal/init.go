@@ -4,8 +4,8 @@ import (
 	"os"
 	"path"
 
-	"rft/internal/com/server"
-	"rft/internal/config"
+	"barf/internal/com/server"
+	"barf/internal/config"
 
 	"github.com/asaskevich/EventBus"
 )

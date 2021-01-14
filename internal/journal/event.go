@@ -1,6 +1,6 @@
 package journal
 
-import "rft/internal/op"
+import "barf/internal/op"
 
 type startHandler func(*op.Operation) error
 type abortHandler func(op.OperationID) error

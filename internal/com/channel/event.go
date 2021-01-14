@@ -1,8 +1,8 @@
 package channel
 
 import (
-	"rft/internal/com/protocol"
-	"rft/internal/com/socket"
+	"barf/internal/com/protocol"
+	"barf/internal/com/socket"
 )
 
 type messageHandler func(*socket.Socket, *protocol.Message)

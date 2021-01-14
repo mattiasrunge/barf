@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"os"
 
-	"rft/internal/com/channel"
-	"rft/internal/com/protocol"
-	"rft/internal/com/socket"
+	"barf/internal/com/channel"
+	"barf/internal/com/protocol"
+	"barf/internal/com/socket"
 )
 
 func onRequestCreateError(socket *socket.Socket, requestID protocol.RequestID, resultMessage string) {

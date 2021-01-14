@@ -1,7 +1,7 @@
 package runner
 
 import (
-	"rft/internal/journal"
+	"barf/internal/journal"
 )
 
 func init() {

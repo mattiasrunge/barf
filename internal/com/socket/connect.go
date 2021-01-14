@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"net"
 
-	"rft/internal/config"
-	"rft/internal/proc/life"
+	"barf/internal/config"
+	"barf/internal/proc/life"
 )
 
 var clientSocket *Socket = nil

@@ -1,10 +1,10 @@
 package ui
 
 import (
+	"barf/internal/com/client"
+	"barf/internal/op"
 	"errors"
 	"os"
-	"rft/internal/com/client"
-	"rft/internal/op"
 	"sync"
 
 	"github.com/mattiasrunge/goterminal"
@@ -51,9 +51,14 @@ func AddOperation(operation *op.Operation) error {
 }
 
 // Start monitoring operations
-func Start() {
+func Start(w int) {
 	writer = goterminal.New(os.Stdout)
-	width, _ = writer.GetTermDimensions()
+
+	if w == 0 {
+		width, _ = writer.GetTermDimensions()
+	} else {
+		width = w
+	}
 
 	client.OnOperationStatus(onOperationStatus)
 }

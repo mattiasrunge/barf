@@ -1,6 +1,6 @@
 package server
 
-import "rft/internal/op"
+import "barf/internal/op"
 
 type createHandler func(op.OperationType, op.OperationArgs) (*op.Operation, error)
 type abortHandler func(op.OperationID) error

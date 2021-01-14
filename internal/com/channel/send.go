@@ -1,8 +1,8 @@
 package channel
 
 import (
-	"rft/internal/com/protocol"
-	"rft/internal/com/socket"
+	"barf/internal/com/protocol"
+	"barf/internal/com/socket"
 )
 
 // Broadcast sends message to all sockets

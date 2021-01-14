@@ -3,15 +3,15 @@ package run
 import (
 	"fmt"
 
-	"rft/internal/com/socket"
-	"rft/internal/proc/daemon"
-	"rft/internal/ui"
+	"barf/internal/com/socket"
+	"barf/internal/proc/daemon"
+	"barf/internal/ui"
 
 	cli "github.com/jawher/mow.cli"
 )
 
 // StartCLI starts the CLI process
-func StartCLI(action func() error) {
+func StartCLI(width int, action func() error) {
 	normalClose := false
 	err := daemon.Spawn()
 
@@ -36,7 +36,7 @@ func StartCLI(action func() error) {
 		}
 	})
 
-	ui.Start()
+	ui.Start(width)
 
 	err = action()
 

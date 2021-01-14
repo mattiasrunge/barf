@@ -33,7 +33,7 @@ jobs:
         VERSION=${GITHUB_REF/refs\/tags\//}
         echo "VERSION=$VERSION" >> $GITHUB_ENV
         echo $VERSION
-        ./build.sh $VERSION
+        ./scripts/build.sh $VERSION
 
     - name: Create Release
       uses: actions/create-release@v1

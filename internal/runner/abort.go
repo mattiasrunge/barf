@@ -3,7 +3,7 @@ package runner
 import (
 	"errors"
 
-	"rft/internal/op"
+	"barf/internal/op"
 )
 
 func abort(operationID op.OperationID) error {

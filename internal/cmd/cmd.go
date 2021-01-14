@@ -10,7 +10,7 @@ import (
 	"sync"
 	"syscall"
 
-	"rft/internal/utils"
+	"barf/internal/utils"
 )
 
 // LogHandler is the definition for a log line handler func

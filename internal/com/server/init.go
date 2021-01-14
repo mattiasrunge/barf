@@ -1,9 +1,9 @@
 package server
 
 import (
-	"rft/internal/com/channel"
-	"rft/internal/com/protocol"
-	"rft/internal/com/socket"
+	"barf/internal/com/channel"
+	"barf/internal/com/protocol"
+	"barf/internal/com/socket"
 )
 
 func onMessage(socket *socket.Socket, message *protocol.Message) {

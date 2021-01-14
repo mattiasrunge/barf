@@ -3,10 +3,10 @@ package runners
 import (
 	"math"
 
-	"rft/internal/cmd"
-	"rft/internal/op"
-	"rft/internal/rsync"
-	"rft/internal/typeconv"
+	"barf/internal/cmd"
+	"barf/internal/op"
+	"barf/internal/rsync"
+	"barf/internal/typeconv"
 )
 
 type copyRunner struct {

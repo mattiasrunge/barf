@@ -9,8 +9,8 @@ import (
 	"syscall"
 	"time"
 
-	"rft/internal/config"
-	"rft/internal/proc/pidfile"
+	"barf/internal/config"
+	"barf/internal/proc/pidfile"
 )
 
 func isAlive(pid int) bool {
@@ -78,7 +78,7 @@ func Spawn() error {
 	binary := os.Args[0]
 
 	if strings.Contains(binary, "/go-build") {
-		binary = "rft.sh" // For development
+		binary = "barf.sh" // For development
 	}
 
 	var executable = path.Join(dirname, binary)
