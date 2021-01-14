@@ -3,6 +3,8 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 V=$1
 
+set -x
+
 function build {
     echo "Building barf ${V} with: GOOS=$GOOS GOARCH=$GOARCH GOARM=$GOARM"
     bash -c "\
@@ -20,6 +22,7 @@ function build {
         tar -czf ../barf-$GOOS-$GOARCH$GOARM.tar.gz * && \
         popd &> /dev/null\
     "
+    echo "$DIR/../build/barf-$GOOS-$GOARCH$GOARM.tar.gz"
     SIZE=$(stat -c%s "$DIR/../build/barf-$GOOS-$GOARCH$GOARM.tar.gz")
     echo "barf-$GOOS-$GOARCH$GOARM.tar.gz ($SIZE bytes) complete!"
     echo ""
