@@ -7,7 +7,7 @@ import (
 	"path"
 )
 
-const DaemonVariable = "_barf_DAEMON_"
+const DaemonVariable = "_BARF_DAEMON_"
 const Name = "barf"
 const Description = "A tool for doing robust file operations."
 

@@ -2,39 +2,17 @@
 
 TMPDIR=$1
 
-function prompt {
-    printf '\e[01;32mbarf\e[00m:\e[01;34m/home/barf\e[00m$ '
-    sleep 0.1
+source ./scripts/scenarios/lib/helpers.sh
 
-    printf "$1\n"
-}
+mkdir -p $TMPDIR/remote
 
-prompt 'ls -sh -1 ~/from'
-ls -sh -1 $TMPDIR/from
-
-sleep 1
-echo ""
-
-prompt 'barf copy ~/from/* ~/to/'
-timeout 4 ./barf.sh -w 132 copy $TMPDIR/from/* $TMPDIR/to/
+prompt 'barf copy ~/local/* ~/remote/'
+timeout 4 barf copy $TMPDIR/local/* $TMPDIR/remote/
 echo "^C"
 
-sleep 1
-echo ""
+sleep 0.2
 
 prompt 'barf monitor'
-./barf.sh -w 132 monitor
-echo ""
+barf monitor
 
-sleep 1
-echo ""
-
-prompt 'ls -sh -1 ~/to'
-ls -sh -1 $TMPDIR/to
-
-echo ""
-
-prompt ''
-
-sleep 5
-echo ""
+finish

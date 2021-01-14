@@ -77,6 +77,7 @@ func Spawn() error {
 	dirname, _ := os.Getwd()
 	binary := os.Args[0]
 
+	fmt.Println("Binary:", binary)
 	if strings.Contains(binary, "/go-build") {
 		binary = "barf.sh" // For development
 	}

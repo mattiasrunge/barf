@@ -3,6 +3,7 @@ package rsync
 import (
 	"barf/internal/cmd"
 	"barf/internal/utils"
+	"fmt"
 )
 
 type RsyncStatus struct {
@@ -161,6 +162,7 @@ func (r *Rsync) doPreparation() error {
 		r.status.ExitCode = exitCode
 		r.emitStatus()
 	} else if r.status.BytesDiffTotal == 0 {
+		fmt.Println("No bytes found that needs transfer, will do nothing")
 		r.status.Progress = 100
 		r.status.Finished = true
 		r.status.ExitCode = exitCode

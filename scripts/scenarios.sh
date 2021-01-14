@@ -9,15 +9,13 @@ TMPDIR=$(mktemp -d -t barf-XXXXXXXXXX)
 
 SCENARIOS="$SDIR/*.sh"
 
-
 function gendata {
-    mkdir -p $TMPDIR/from
-    mkdir -p $TMPDIR/to
+    mkdir -p $TMPDIR/local
 
-    fallocate -l 2GB $TMPDIR/from/01_very_big_file.bin
-    fallocate -l 1GB $TMPDIR/from/02_big_file.bin
-    fallocate -l 500MB $TMPDIR/from/03_medium_file.bin
-    fallocate -l 100MB $TMPDIR/from/04_small_file.bin
+    fallocate -l 1500MB $TMPDIR/local/huge
+    fallocate -l 1000MB $TMPDIR/local/big
+    fallocate -l 500MB $TMPDIR/local/medium
+    fallocate -l 100MB $TMPDIR/local/small
 }
 
 function scenario {
