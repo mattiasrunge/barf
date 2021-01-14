@@ -58,6 +58,8 @@ Run 'barf COMMAND --help' for more information on a command.
 
 For longer running operations it is usually nice see what is happening. *barf* will present a nice progress visualization for each operation. If the CLI is terminated while an operation is still running it can be found again via the monitor flag.
 
+<img src="./docs/svg/copy-monitor.svg?raw=true" />
+
 ### Background
 
 *barf* starts a background process, if one is not already running, which runs all operations. This means that once the operation has been sent to the background process the CLI can be aborted and the operation will still continue.
