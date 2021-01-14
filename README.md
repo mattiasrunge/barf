@@ -4,7 +4,7 @@
 
 BARF is a CLI tool written for doing robust file operations. Under the hood it uses [rsync](https://rsync.samba.org/) to do the heavy lifting.
 
-<img src="./docs/svg/copy-normal.svg?raw=true" style="width: 800px;;">
+<img src="./docs/svg/copy-normal.svg?raw=true" />
 
 ## Table of contents
 
