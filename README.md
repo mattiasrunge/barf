@@ -37,7 +37,7 @@ sudo bash -c 'curl -L https://github.com/mattiasrunge/barf/releases/latest/downl
 
 ## Usage
 
-```bash
+```plain_text
 Usage: barf [OPTIONS] COMMAND [arg...]
 
 A tool for doing robust file operations.
@@ -74,47 +74,22 @@ Since [rsync](https://rsync.samba.org/) is used for the heavy lifting and [rsync
 
 ### Resumable
 
-If for some reason the background process dies all operations are stored in a journal and will be restarted when the background process starts again. Since *[rsync](https://rsync.samba.org/)* does synchronization, all operations should be resumable.
+If for some reason the background process dies all operations are stored in a journal and will be restarted when the background process starts again. Since *[rsync](https://rsync.samba.org/)* does synchronization, all operations should be resumable. The output of all operations are stored in log files to enable debugging and verification.
 
-The output of all operations are stored in log files to enable debugging and verification.
+<img src="./docs/svg/daemon-journal.svg?raw=true" />
 
 ## Operations
 
 *barf* supports different kinds of operations which are described here.
 
-### Copy <span style="color: grey; font-size: 12px; padding-left: 5px">Append files and folders from source at remote</span>
-
-Copy files and folders to a new location. Since [rsync](https://rsync.samba.org/) is used, what actually happens under the hood is a synchronization which might behave slightly different than an ordinary *cp* command. It can probably be seen more like an append, take everything local and put remote, overwrite if necessary but remove nothing.
-
-### Move <span style="color: grey; font-size: 12px; padding-left: 5px">Append files and folders from source at remote and then remove source</span>
-
-*(Not implemented yet)*
-
-Move is essentially the same as Copy but it removes the source files and folders after the Copy has completed successfully.
-
-### Push <span style="color: grey; font-size: 12px; padding-left: 5px">Replace files and folders from source at remote and delete files and folders from remote that are not present at source</span>
-
-*(Not implemented yet)*
-
-Similar to Copy but makes the remove exactly the same. Only different from Copy if folders are involved. Files and folders missing at the source will be removed from the remote.
-
-### Pull <span style="color: grey; font-size: 12px; padding-left: 5px">Replace files and folders from remote at source and delete files and folders from source that are not present at remove</span>
-
-*(Not implemented yet)*
-
-Exactly like push but with source and remove inverted.
-
-### Backup <span style="color: grey; font-size: 12px; padding-left: 5px">Create a copy of local in a new backup folder at the remote</span>
-
-*(Not implemented yet)*
-
-Backup will create a new directory, named as the current date and time. It will then do create hard links from the previous backup if there is one. After that it will do a Push operation to that folder.
-
-### Restore <span style="color: grey; font-size: 12px; padding-left: 5px">Will do a Pull from the specified remote backup to local</span>
-
-*(Not implemented yet)*
-
-Restore will take the specified backup at the remote and Pull it to the local overwriting local in the process if it is not empty.
+| Operation | Description |
+| --- | --- |
+| `copy` | <small>*Short: Append files and folders from the source at the remote*<br><br>Copies files and folders to the remote. Since [rsync](https://rsync.samba.org/) is used, what actually happens under the hood is a synchronization which might behave slightly different than an ordinary `cp` command. It can probably be seen more like appending; take everything at the source and put it at the remote, overwrite if necessary but remove nothing.</small> |
+| `move` | <small>*Short: Append files and folders from the source at the remote and remove at source*<br><br>Move is essentially the same as `copy` but it removes the source files and folders after the copy has completed successfully.</small> |
+| `push` | <small>*Short: Make the remote exactly like the source*<br><br>Similar to `copy` but makes the remote exactly the same as the source. Files and folders found remote but not at the source will be deleted.</small> |
+| `pull` | <small>*Short: Make the source exactly like the remote*<br><br>Exactly like `push` but with source and remove inverted.</small> |
+| `backup` | <small>*Short: Create a new copy of the source at the remote*<br><br>Backup will create a new folder, named as the current date and time. It will then create hard links from the previous backup if there is one. After that it will do a `push` operation to that folder.</small> |
+| `restore` | <small>*Short: Will do a `pull` from the specified remote backup to the source*<br><br>Restore will take the specified backup at the remote and `pull` it to the source, overwriting everything at the source in the process.</small> |
 
 ## Goals
 
@@ -130,5 +105,5 @@ Every project needs a reason for being.
 - Written in [Go](https://golang.org/)
 - Uses a domain socket for communication (CLI -> background process)
 - Stores state and logs under ```~/.config/barf```
-- Uses the installed version of [rsync](https://rsync.samba.org/)
+- Uses the installed version of [rsync](https://rsync.samba.org/), make sure there is one
 - Only tested on Linux, but might work on other systems

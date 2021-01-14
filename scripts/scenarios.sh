@@ -25,7 +25,7 @@ function scenario {
     gendata
 
     echo " - Running script and creating SVG..."
-    svg-term --out $OUTDIR/$1.svg --command="bash $SDIR/$1.sh $TMPDIR" --window --height 20 --width $WIDTH --no-cursor
+    svg-term --out $OUTDIR/$1.svg --command="bash $SDIR/$1.sh $TMPDIR" --window --height $2 --width $WIDTH --no-cursor
 
     echo " - Removing data..."
     rm -rf $TMPDIR/*
@@ -34,11 +34,16 @@ function scenario {
     echo ""
 }
 
-for f in $SCENARIOS; do
-    filename=$(basename -- "$f")
-    name="${filename%.*}"
+# for f in $SCENARIOS; do
+#     filename=$(basename -- "$f")
+#     name="${filename%.*}"
 
-    scenario $name
-done
+#     scenario $name
+# done
+scenario copy-normal 20
+scenario copy-monitor 10
+scenario copy-monitor-many 22
+scenario copy-remote 16
+scenario daemon-journal 42
 
 rm -rf $TMPDIR
