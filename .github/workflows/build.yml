@@ -35,6 +35,9 @@ jobs:
         echo $VERSION
         ./scripts/build.sh $VERSION
 
+        echo "PWD:"
+        pwd
+
     - name: Create Release
       uses: actions/create-release@v1
       env:
