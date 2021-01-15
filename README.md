@@ -44,12 +44,15 @@ A tool for doing robust file operations.
 
 Options:
   -v, --version   Show the version and exit
+  -w, --width,    terminal width to use, if not set (or zero) it will be auto detected and failing that set to 132 (default 0)
 
 Commands:
   monitor, m      monitors active operations
   copy, cp        copies files or folders
+  move, mv        moves files or folders
 
 Run 'barf COMMAND --help' for more information on a command.
+
 ```
 
 ## Features
