@@ -12,8 +12,9 @@ type OperationStatus struct {
 	FilesTotal     int64 `json:"filesTotal"`
 	FilesDone      int64 `json:"filesDone"`
 
-	Progress float64 `json:"progress"`
-	Speed    float64 `json:"speed"`
+	Progress     float64 `json:"progress"`
+	Speed        float64 `json:"speed"`
+	AverageSpeed float64 `json:"averageSpeed"`
 
 	StartedTimestamp  int64 `json:"startedTimestamp"`
 	FinishedTimestamp int64 `json:"finishedTimestamp"`
@@ -88,8 +89,17 @@ func UpdateStatus(a *OperationStatus, b *OperationStatus) {
 
 	if a.Finished && a.FinishedTimestamp == 0 {
 		now := time.Now()
+
 		a.SecondsLeft = 0
 		a.FinishedTimestamp = now.Unix()
+
+		duration := float64(a.FinishedTimestamp) - float64(a.StartedTimestamp)
+
+		if duration <= 0 {
+			a.AverageSpeed = 0
+		} else {
+			a.AverageSpeed = float64(a.BytesTotal) / duration
+		}
 	}
 
 	if b.ExitCode > a.ExitCode {

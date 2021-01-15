@@ -59,10 +59,14 @@ func getByteProgress(o *operationWithStatus) string {
 		totalStr = aurora.BrightGreen(totalStr).String()
 	}
 
-	result := fmt.Sprintf("%s / %s", doneStr, totalDiffStr)
+	result := totalDiffStr
 
 	if o.status.BytesDiffTotal != o.status.BytesTotal {
-		return fmt.Sprintf("%s(%s)", result, totalStr)
+		result = fmt.Sprintf("%s(%s)", result, totalStr)
+	}
+
+	if !o.status.Finished || o.status.ExitCode > 0 {
+		result = fmt.Sprintf("%s / %s", doneStr, result)
 	}
 
 	return result
@@ -78,10 +82,14 @@ func getFileProgress(o *operationWithStatus) string {
 		totalStr = aurora.BrightGreen(totalStr).String()
 	}
 
-	result := fmt.Sprintf("%s / %s", doneStr, totalDiffStr)
+	result := totalDiffStr
 
 	if o.status.FilesDiffTotal != o.status.FilesTotal {
-		return fmt.Sprintf("%s(%s)", result, totalStr)
+		result = fmt.Sprintf("%s(%s)", result, totalStr)
+	}
+
+	if !o.status.Finished || o.status.ExitCode > 0 {
+		result = fmt.Sprintf("%s / %s", doneStr, result)
 	}
 
 	return result
@@ -92,6 +100,10 @@ func getProgress(o *operationWithStatus) string {
 }
 
 func getSpeed(o *operationWithStatus) string {
+	if o.status.Finished {
+		return fmt.Sprintf("%s/s", utils.ByteCountSI(int64(o.status.AverageSpeed)))
+	}
+
 	return fmt.Sprintf("%s/s", utils.ByteCountSI(int64(o.status.Speed)))
 }
 

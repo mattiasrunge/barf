@@ -35,7 +35,3 @@ function finish {
     sleep 6
     echo ""
 }
-
-function barf {
-    ./barf.sh "$@"
-}

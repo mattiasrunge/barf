@@ -47,7 +47,7 @@ func startDaemon() error {
 		pidfile.Delete()
 	})
 
-	fmt.Println("Daemon started")
+	fmt.Println("Daemon started " + config.Version)
 
 	err = socket.Listen()
 
@@ -55,7 +55,7 @@ func startDaemon() error {
 		return err
 	}
 
-	fmt.Println("Listening for connections")
+	fmt.Println("Listening for connections...")
 
 	err = runner.Start()
 
