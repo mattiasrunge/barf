@@ -40,13 +40,14 @@ func (cmd *Cmd) Start(args []string) (int, error) {
 	}
 
 	cmd.cmd = exec.Command(args[0], args[1:]...)
-	var wg sync.WaitGroup
 
 	stdout, _ := cmd.cmd.StdoutPipe()
 	stderr, _ := cmd.cmd.StderrPipe()
 
 	go cmd.handleLog(stdout, cmd.stdoutHandler)
 	go cmd.handleLog(stderr, cmd.stderrHandler)
+
+	cmd.stdoutHandler("Executing: " + strings.Join(args, " "))
 
 	err := cmd.cmd.Start()
 
@@ -56,7 +57,7 @@ func (cmd *Cmd) Start(args []string) (int, error) {
 		return 255, err
 	}
 
-	wg.Wait()
+	cmd.wg.Wait()
 
 	err = cmd.cmd.Wait()
 

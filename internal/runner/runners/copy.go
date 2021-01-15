@@ -19,25 +19,24 @@ type copyRunner struct {
 
 func (r *copyRunner) init(operation *op.Operation) {
 	r.operation = operation
-
-	args := []string{}
-	fromArray, _ := typeconv.ToArray(operation.Args["from"])
-	from := typeconv.ToStringArray(fromArray)
-
-	for _, value := range from {
-		args = append(args, value)
-	}
-
-	args = append(args, operation.Args["to"].(string))
-
-	r.rsync = rsync.NewRsync(args)
+	r.rsync = rsync.NewRsync()
 	r.rsync.OnStdout(r.handleStdout)
 	r.rsync.OnStderr(r.handleStderr)
 	r.rsync.OnStatus(r.handleStatus)
 }
 
 func (r *copyRunner) Start() {
-	r.rsync.Start()
+	args := []string{}
+	fromArray, _ := typeconv.ToArray(r.operation.Args["from"])
+	from := typeconv.ToStringArray(fromArray)
+
+	for _, value := range from {
+		args = append(args, value)
+	}
+
+	args = append(args, r.operation.Args["to"].(string))
+
+	r.rsync.Copy(args)
 }
 
 func (r *copyRunner) Abort() error {
@@ -70,7 +69,7 @@ func (r *copyRunner) handleStderr(line string) {
 
 func (r *copyRunner) handleStatus(status *rsync.RsyncStatus) {
 	r.statusHandler(&op.OperationStatus{
-		Step:           status.Step,
+		Message:        status.Message,
 		BytesDiffTotal: status.BytesDiffTotal,
 		BytesTotal:     status.BytesTotal,
 		BytesDone:      status.BytesDoneTotal,
@@ -83,6 +82,5 @@ func (r *copyRunner) handleStatus(status *rsync.RsyncStatus) {
 		FileName:       status.CurrentFileName,
 		Finished:       status.Finished,
 		ExitCode:       status.ExitCode,
-		Error:          status.Error,
 	})
 }

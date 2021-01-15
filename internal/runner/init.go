@@ -1,15 +1,13 @@
 package runner
 
 import (
-	"barf/internal/journal"
+	"barf/internal/coordinator"
 )
 
-func init() {
-	journal.OnOperationStart(start)
-	journal.OnOperationAbort(abort)
-}
+// Start reads the journal and starts operations
+func Start() error {
+	coordinator.OnOperationStart(start)
+	coordinator.OnOperationAbort(abort)
 
-// StartRunner reads the journal and starts operations
-func StartRunner() error {
-	return journal.ReadFromDisk()
+	return coordinator.Initialize()
 }

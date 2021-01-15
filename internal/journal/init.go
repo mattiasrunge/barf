@@ -4,27 +4,28 @@ import (
 	"os"
 	"path"
 
-	"barf/internal/com/server"
 	"barf/internal/config"
-
-	"github.com/asaskevich/EventBus"
 )
 
-var bus EventBus.Bus
 var activeDir = ""
 var historyDir = ""
 
-func init() {
-	bus = EventBus.New()
-
+// Initialize initializes the journal, ensures directories and loads active entries
+func Initialize() ([]*JournalEntry, error) {
 	activeDir = path.Join(config.JournalDir, "active")
 	historyDir = path.Join(config.JournalDir, "history")
 
-	os.Mkdir(activeDir, 0700)
-	os.Mkdir(historyDir, 0700)
+	err := os.MkdirAll(activeDir, 0700)
 
-	server.OnOperationCreate(create)
-	server.OnOperationAbort(abort)
-	server.OnOperationStatus(status)
-	server.OnListOperations(list)
+	if err != nil {
+		return nil, err
+	}
+
+	err = os.MkdirAll(historyDir, 0700)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return loadActiveJournalEntries()
 }

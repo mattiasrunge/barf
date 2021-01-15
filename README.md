@@ -106,4 +106,5 @@ Every project needs a reason for being.
 - Uses a domain socket for communication (CLI -> background process)
 - Stores state and logs under ```~/.config/barf```
 - Uses the installed version of [rsync](https://rsync.samba.org/), make sure there is one
+- Well defined socket protocol, allowing for other types of clients
 - Only tested on Linux, but might work on other systems

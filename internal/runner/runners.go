@@ -2,13 +2,15 @@ package runner
 
 import (
 	"fmt"
+	"sync"
 
-	"barf/internal/journal"
+	"barf/internal/coordinator"
 	"barf/internal/op"
 	"barf/internal/runner/runners"
 )
 
 var activeRunners []runners.Runner
+var activeRunnersMu sync.Mutex
 
 func createRunner(operation *op.Operation) error {
 	r, err := runners.NewRunner(operation)
@@ -19,18 +21,18 @@ func createRunner(operation *op.Operation) error {
 
 	r.OnStdout(func(line string) {
 		fmt.Println("Stdout["+r.OperationID()+"]: ", line)
-		// TODO: Write to file
-		// TODO: Send to clients?
+
+		coordinator.WriteOperationStdout(r.OperationID(), line)
 	})
 
 	r.OnStderr(func(line string) {
 		fmt.Println("Stderr["+r.OperationID()+"]: ", line)
-		// TODO: Write to file
-		// TODO: Send to clients?
+
+		coordinator.WriteOperationStderr(r.OperationID(), line)
 	})
 
 	r.OnStatus(func(status *op.OperationStatus) {
-		err := journal.UpdateOperationStatus(r.OperationID(), status)
+		err := coordinator.UpdateOperationStatus(r.OperationID(), status)
 
 		if err != nil {
 			fmt.Println(err)
@@ -41,7 +43,9 @@ func createRunner(operation *op.Operation) error {
 		}
 	})
 
+	activeRunnersMu.Lock()
 	activeRunners = append(activeRunners, r)
+	defer activeRunnersMu.Unlock()
 
 	go r.Start()
 
@@ -49,6 +53,9 @@ func createRunner(operation *op.Operation) error {
 }
 
 func removeRunner(operationID op.OperationID) {
+	activeRunnersMu.Lock()
+	defer activeRunnersMu.Unlock()
+
 	for i, r := range activeRunners {
 		if r.OperationID() == operationID {
 			copy(activeRunners[i:], activeRunners[i+1:])
@@ -60,6 +67,9 @@ func removeRunner(operationID op.OperationID) {
 }
 
 func getRunner(operationID op.OperationID) runners.Runner {
+	activeRunnersMu.Lock()
+	defer activeRunnersMu.Unlock()
+
 	for _, r := range activeRunners {
 		if r.OperationID() == operationID {
 			return r

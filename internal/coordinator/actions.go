@@ -1,40 +1,27 @@
-package journal
+package coordinator
 
 import (
 	"errors"
 
 	"barf/internal/com/server"
+	"barf/internal/journal"
 	"barf/internal/op"
 )
 
 func create(opType op.OperationType, args op.OperationArgs) (*op.Operation, error) {
-	operation := op.NewOperation(opType, args)
-
-	if registerdStartHandler == nil {
-		return operation, errors.New("No start handler registered")
-	}
-
-	e := entry{
-		Operation: operation,
-		Status:    op.NewStatus(),
-	}
-
-	err := addEntry(&e)
+	index, err := getNextIndex()
 
 	if err != nil {
-		return operation, err
+		return nil, err
 	}
 
-	err = server.OperationCreated(operation)
+	operation := op.NewOperation(opType, args, index)
 
-	if err != nil {
-		UpdateOperationStatus(operation.ID, &op.OperationStatus{
-			Finished: true,
-			ExitCode: 255,
-			Error:    err.Error(),
-		})
-		return operation, err
-	}
+	e, err := journal.NewJournalEntry(operation)
+
+	addEntry(e)
+
+	_ = server.OperationCreated(operation)
 
 	err = registerdStartHandler(operation)
 
@@ -42,9 +29,10 @@ func create(opType op.OperationType, args op.OperationArgs) (*op.Operation, erro
 		UpdateOperationStatus(operation.ID, &op.OperationStatus{
 			Finished: true,
 			ExitCode: 255,
-			Error:    err.Error(),
+			Message:  err.Error(),
 		})
-		return operation, err
+
+		return nil, err
 	}
 
 	return operation, nil
@@ -61,8 +49,9 @@ func abort(operationID op.OperationID) error {
 		UpdateOperationStatus(operationID, &op.OperationStatus{
 			Finished: true,
 			ExitCode: 254,
-			Error:    err.Error(),
+			Message:  err.Error(),
 		})
+
 		return err
 	}
 
@@ -72,7 +61,7 @@ func abort(operationID op.OperationID) error {
 func list() ([]*op.Operation, error) {
 	var operations []*op.Operation
 
-	for _, e := range entries {
+	for _, e := range getEntries() {
 		operations = append(operations, e.Operation)
 	}
 
@@ -80,11 +69,11 @@ func list() ([]*op.Operation, error) {
 }
 
 func status(operationID op.OperationID) (*op.OperationStatus, error) {
-	entry, err := getEntry(operationID)
+	entry := getEntry(operationID)
 
-	if err != nil {
-		return nil, err
+	if entry == nil {
+		return nil, errors.New("No entry for operation with id " + string(operationID) + " found!")
 	}
 
-	return entry.Status, errors.New("No such operation found")
+	return entry.Status, nil
 }

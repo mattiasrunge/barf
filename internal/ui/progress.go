@@ -41,24 +41,12 @@ func getIndex(o *operationWithStatus) string {
 	return fmt.Sprintf("%d", o.operation.Index)
 }
 
-func getStep(o *operationWithStatus) string {
-	return o.status.Step
+func getMessage(o *operationWithStatus) string {
+	return o.status.Message
 }
 
 func getFileName(o *operationWithStatus) string {
 	return o.status.FileName
-}
-
-func getFinished(o *operationWithStatus) string {
-	if o.status.Finished {
-		if o.status.ExitCode > 0 {
-			return fmt.Sprintf("Failed [code=%d]: %s", o.status.ExitCode, o.status.Error)
-		}
-
-		return "Completed successfully!"
-	}
-
-	return ""
 }
 
 func getByteProgress(o *operationWithStatus) string {
@@ -149,37 +137,23 @@ func getProgressBar(o *operationWithStatus, width int, text string) string {
 
 func update() {
 	mu.Lock()
+	defer mu.Unlock()
+
 	writer.Clear()
 	for n, o := range operations {
 		index := getIndex(o)
 		title := getTitle(o)
-		step := getStep(o)
-		fileName := getFileName(o)
-		finished := getFinished(o)
+		message := getMessage(o)
 		sizeProgress := getByteProgress(o)
 		fileProgress := getFileProgress(o)
 		progress := getProgress(o)
 		speed := getSpeed(o)
 		timeInfo := getTimeInfo(o)
 
-		barText := ""
-
-		if len(step) > 0 {
-			barText = fmt.Sprintf("%s...", step)
-		}
-
-		if len(fileName) > 0 {
-			barText = fmt.Sprintf("%s %s...", step, fileName)
-		}
-
-		if len(finished) > 0 {
-			barText = fmt.Sprintf("%s", finished)
-		}
-
 		progressPrefix := fmt.Sprintf(" %s. %s ", index, title)
 		progressSuffix := fmt.Sprintf(" %s | %s | %s | %s | %s ", progress, speed, sizeProgress, fileProgress, timeInfo)
 		progressWidth := width - sLen(progressPrefix) - sLen(progressSuffix)
-		progressBar := getProgressBar(o, progressWidth, barText)
+		progressBar := getProgressBar(o, progressWidth, message)
 
 		fmt.Fprintf(writer, "%s%s%s\n", progressPrefix, progressBar, progressSuffix)
 
@@ -187,7 +161,5 @@ func update() {
 			fmt.Fprintf(writer, "\n")
 		}
 	}
-
 	writer.Print()
-	mu.Unlock()
 }

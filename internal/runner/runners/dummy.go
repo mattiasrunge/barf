@@ -92,6 +92,6 @@ func (r *dummyRunner) handleFinish(exitCode int, errorMsg string) {
 	r.statusHandler(&op.OperationStatus{
 		Finished: true,
 		ExitCode: exitCode,
-		Error:    errorMsg,
+		Message:  errorMsg,
 	})
 }

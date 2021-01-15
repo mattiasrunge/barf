@@ -2,12 +2,11 @@ package run
 
 import (
 	"fmt"
+	"os"
 
 	"barf/internal/com/socket"
 	"barf/internal/proc/daemon"
 	"barf/internal/ui"
-
-	cli "github.com/jawher/mow.cli"
 )
 
 // StartCLI starts the CLI process
@@ -17,7 +16,7 @@ func StartCLI(width int, action func() error) {
 
 	if err != nil {
 		fmt.Println(err)
-		cli.Exit(255)
+		os.Exit(255)
 		return
 	}
 
@@ -25,14 +24,14 @@ func StartCLI(width int, action func() error) {
 
 	if err != nil {
 		fmt.Println(err)
-		cli.Exit(255)
+		os.Exit(255)
 		return
 	}
 
 	socket.OnClose(func() {
 		if !normalClose {
 			fmt.Println("Lost connection to backend")
-			cli.Exit(1)
+			os.Exit(1)
 		}
 	})
 
@@ -42,7 +41,7 @@ func StartCLI(width int, action func() error) {
 
 	if err != nil {
 		fmt.Println(err)
-		cli.Exit(255)
+		os.Exit(255)
 		return
 	}
 
@@ -52,5 +51,5 @@ func StartCLI(width int, action func() error) {
 	socket.Close()
 	socket.WaitOnClose()
 
-	cli.Exit(exitCode)
+	os.Exit(exitCode)
 }

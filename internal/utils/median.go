@@ -4,13 +4,16 @@ import "sort"
 
 // Median returns the median value of the supplied numbers
 func Median(numbers []float64) float64 {
-	sort.Float64s(numbers)
+	worknumbers := make([]float64, len(numbers))
+	copy(worknumbers, numbers)
 
-	index := len(numbers) / 2
+	sort.Float64s(worknumbers)
 
-	if len(numbers)%2 != 0 {
-		return numbers[index]
+	index := len(worknumbers) / 2
+
+	if len(worknumbers)%2 != 0 {
+		return worknumbers[index]
 	}
 
-	return (numbers[index-1] + numbers[index]) / 2
+	return (worknumbers[index-1] + worknumbers[index]) / 2
 }

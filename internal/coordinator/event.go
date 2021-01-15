@@ -1,4 +1,4 @@
-package journal
+package coordinator
 
 import "barf/internal/op"
 

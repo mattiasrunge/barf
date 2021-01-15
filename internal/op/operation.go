@@ -42,11 +42,12 @@ type Operation struct {
 }
 
 // NewOperation creates an operation object
-func NewOperation(opType OperationType, args OperationArgs) *Operation {
+func NewOperation(opType OperationType, args OperationArgs, index OperationIndex) *Operation {
 	id := xid.New()
 
 	return &Operation{
 		ID:    OperationID(id.String()),
+		Index: index,
 		Title: OperationTitle(strings.Title(string(opType))),
 		Type:  opType,
 		Args:  args,

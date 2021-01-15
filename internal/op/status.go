@@ -20,10 +20,9 @@ type OperationStatus struct {
 	SecondsLeft       int64 `json:"secondsLeft"`
 
 	FileName string `json:"fileName"`
-	Step     string `json:"step"`
 	Finished bool   `json:"finished"`
+	Message  string `json:"message"`
 	ExitCode int    `json:"exitCode"`
-	Error    string `json:"error,omitempty"`
 }
 
 // NewStatus creates a operation status object with default values
@@ -79,8 +78,8 @@ func UpdateStatus(a *OperationStatus, b *OperationStatus) {
 		a.FileName = b.FileName
 	}
 
-	if len(b.Step) > 0 {
-		a.Step = b.Step
+	if len(b.Message) > 0 {
+		a.Message = b.Message
 	}
 
 	if b.Finished {
@@ -95,9 +94,5 @@ func UpdateStatus(a *OperationStatus, b *OperationStatus) {
 
 	if b.ExitCode > a.ExitCode {
 		a.ExitCode = b.ExitCode
-	}
-
-	if len(b.Error) > 0 {
-		a.Error = b.Error
 	}
 }

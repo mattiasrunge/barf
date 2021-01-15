@@ -57,7 +57,7 @@ func startDaemon() error {
 
 	fmt.Println("Listening for connections")
 
-	err = runner.StartRunner()
+	err = runner.Start()
 
 	if err != nil {
 		return err

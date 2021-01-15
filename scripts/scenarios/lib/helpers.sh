@@ -23,6 +23,13 @@ function listSizes {
     popd &> /dev/null
 }
 
+function listTree {
+    prompt "find $2"
+    pushd $1 &> /dev/null
+    find .
+    popd &> /dev/null
+}
+
 function finish {
     prompt ''
     sleep 6

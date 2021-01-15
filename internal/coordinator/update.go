@@ -1,32 +1,28 @@
-package journal
+package coordinator
 
 import (
+	"errors"
+
 	"barf/internal/com/server"
 	"barf/internal/op"
 )
 
 // UpdateOperationStatus sets the operation status
 func UpdateOperationStatus(operationID op.OperationID, status *op.OperationStatus) error {
-	e, err := getEntry(operationID)
+	e := getEntry(operationID)
 
-	if err != nil {
-		return err
+	if e == nil {
+		return errors.New("Could not find any entry for operation with id " + string(operationID) + " to report status on!")
 	}
 
-	op.UpdateStatus(e.Status, status)
-
-	err = writeEntry(e)
+	err := e.UpdateStatus(status)
 
 	if err != nil {
 		return err
 	}
 
 	if e.Status.Finished {
-		err = removeEntry(e)
-
-		if err != nil {
-			return err
-		}
+		removeEntry(e)
 	}
 
 	return server.OperationStatus(operationID, e.Status)

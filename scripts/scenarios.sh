@@ -24,7 +24,7 @@ function scenario {
     echo " - Generating data..."
     gendata
 
-    echo " - Running script and creating SVG..."
+    echo " - Running scenario and creating SVG..."
     svg-term --out $OUTDIR/$1.svg --command="bash $SDIR/$1.sh $TMPDIR" --window --height $2 --width $WIDTH --no-cursor
 
     echo " - Removing data..."
@@ -40,10 +40,10 @@ function scenario {
 
 #     scenario $name
 # done
-scenario copy-normal 20
+scenario copy-normal 23
 scenario copy-monitor 10
 scenario copy-monitor-many 22
 scenario copy-remote 16
-scenario daemon-journal 42
+scenario daemon-journal 14
 
 rm -rf $TMPDIR

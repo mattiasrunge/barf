@@ -10,7 +10,6 @@ prompt 'barf copy ~/local/* ~/remote/'
 timeout 4 barf -w 132 copy $TMPDIR/local/* $TMPDIR/remote/
 echo "^C"
 
-prompt 'cat ~/.config/barf/journal/active/*.json | jq'
-cat ~/.config/barf/journal/active/*.json | sed "s|/*$TMPDIR|~|g" | jq
+listTree ~/.config/barf/journal/active ~/.config/barf/journal/active
 
 finish
