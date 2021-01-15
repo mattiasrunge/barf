@@ -7,7 +7,7 @@ import (
 	"barf/internal/typeconv"
 )
 
-type copyRunner struct {
+type moveRunner struct {
 	operation     *op.Operation
 	rsync         *rsync.Rsync
 	stdoutHandler cmd.LogHandler
@@ -15,7 +15,7 @@ type copyRunner struct {
 	statusHandler statushandler
 }
 
-func (r *copyRunner) init(operation *op.Operation) {
+func (r *moveRunner) init(operation *op.Operation) {
 	r.operation = operation
 	r.rsync = rsync.NewRsync()
 	r.rsync.OnStdout(r.handleStdout)
@@ -23,43 +23,43 @@ func (r *copyRunner) init(operation *op.Operation) {
 	r.rsync.OnStatus(r.handleStatus)
 }
 
-func (r *copyRunner) Start() {
+func (r *moveRunner) Start() {
 	args := []string{}
 	srcArray, _ := typeconv.ToArray(r.operation.Args["src"])
 	src := typeconv.ToStringArray(srcArray)
 	dst := r.operation.Args["dst"].(string)
 
-	r.rsync.Copy(args, src, dst)
+	r.rsync.Move(args, src, dst)
 }
 
-func (r *copyRunner) Abort() error {
+func (r *moveRunner) Abort() error {
 	return r.rsync.Abort()
 }
 
-func (r *copyRunner) OperationID() op.OperationID {
+func (r *moveRunner) OperationID() op.OperationID {
 	return r.operation.ID
 }
 
-func (r *copyRunner) OnStdout(handler cmd.LogHandler) {
+func (r *moveRunner) OnStdout(handler cmd.LogHandler) {
 	r.stdoutHandler = handler
 }
 
-func (r *copyRunner) OnStderr(handler cmd.LogHandler) {
+func (r *moveRunner) OnStderr(handler cmd.LogHandler) {
 	r.stderrHandler = handler
 }
 
-func (r *copyRunner) OnStatus(handler statushandler) {
+func (r *moveRunner) OnStatus(handler statushandler) {
 	r.statusHandler = handler
 }
 
-func (r *copyRunner) handleStdout(line string) {
+func (r *moveRunner) handleStdout(line string) {
 	r.stdoutHandler(line)
 }
 
-func (r *copyRunner) handleStderr(line string) {
+func (r *moveRunner) handleStderr(line string) {
 	r.stderrHandler(line)
 }
 
-func (r *copyRunner) handleStatus(status *op.OperationStatus) {
+func (r *moveRunner) handleStatus(status *op.OperationStatus) {
 	r.statusHandler(status)
 }

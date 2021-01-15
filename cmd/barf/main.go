@@ -26,6 +26,10 @@ func main() {
 	}
 
 	// TODO: --log, -l flag to output raw rsync stdout/stderr with the progressbar on bottom... how to handle multi monitor... log only a few lines for each or only support on single monitor?
+	// TODO: Check for updates and download and install updated binary
+	// TODO: Don't show progress bar at all, fire and forget operation for scripts
+	// TODO: JSON output for scripting
+	// TODO: Monitor with flag to keep open and listen for new operations
 
 	app.Command("monitor m", "monitors active operations", func(cmd *cli.Cmd) {
 		cmd.Spec = "[IDS...]"
@@ -42,14 +46,29 @@ func main() {
 
 	app.Command("copy cp", "copies files or folders", func(cmd *cli.Cmd) {
 		cmd.Spec = "SRC... DST"
-		src := cmd.StringsArg("SRC", nil, "Source files to copy")
-		dst := cmd.StringArg("DST", "", "Destination where to copy files to")
+		src := cmd.StringsArg("SRC", nil, "Source to copy")
+		dst := cmd.StringArg("DST", "", "Destination where to copy to")
 
 		cmd.Action = func() {
 			run.StartCLI(*width, func() error {
 				return actions.Copy(map[string]interface{}{
-					"from": src,
-					"to":   dst,
+					"src": src,
+					"dst": dst,
+				})
+			})
+		}
+	})
+
+	app.Command("move mv", "moves files or folders", func(cmd *cli.Cmd) {
+		cmd.Spec = "SRC... DST"
+		src := cmd.StringsArg("SRC", nil, "Source to move")
+		dst := cmd.StringArg("DST", "", "Destination where to move to")
+
+		cmd.Action = func() {
+			run.StartCLI(*width, func() error {
+				return actions.Move(map[string]interface{}{
+					"src": src,
+					"dst": dst,
 				})
 			})
 		}

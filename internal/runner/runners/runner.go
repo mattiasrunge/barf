@@ -29,6 +29,8 @@ func NewRunner(operation *op.Operation) (Runner, error) {
 		r = &dummyRunner{}
 	} else if operation.Type == op.OpCopy {
 		r = &copyRunner{}
+	} else if operation.Type == op.OpMove {
+		r = &moveRunner{}
 	} else {
 		return nil, errors.New("Unknown operation type")
 	}

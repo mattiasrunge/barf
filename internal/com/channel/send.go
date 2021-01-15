@@ -18,8 +18,6 @@ func Broadcast(message *protocol.Message) error {
 
 // Send message to socket
 func Send(s *socket.Socket, message *protocol.Message) error {
-	// TODO assert message only contains event
-
 	data, err := protocol.Encode(message)
 
 	if err != nil {

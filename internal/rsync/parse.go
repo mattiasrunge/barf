@@ -8,6 +8,10 @@ import (
 	"github.com/alecthomas/units"
 )
 
+func isRemote(str string) bool {
+	return strings.Contains(str, ":")
+}
+
 func parseByteStr(str string) int64 {
 	cleanStr := strings.ReplaceAll(str, ",", "")
 	bytes, err := strconv.ParseInt(cleanStr, 10, 64)
@@ -150,7 +154,7 @@ func parseProgress(line string) (int64, float64, bool) {
 func parseFileName(line string) (string, bool, bool) {
 	if strings.HasPrefix(line, "__file:") {
 		fileName := strings.TrimPrefix(strings.Replace(line, "__file:", "", 1), " ")
-		isDir := strings.HasPrefix(fileName, "./")
+		isDir := strings.HasSuffix(fileName, "/") || strings.HasPrefix(fileName, "./")
 
 		return fileName, isDir, true
 	}
