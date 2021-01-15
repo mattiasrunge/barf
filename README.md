@@ -48,8 +48,8 @@ Options:
 
 Commands:
   monitor, m      monitors active operations
-  copy, cp        copies files or folders
-  move, mv        moves files or folders
+  copy, cp        copies files or directories
+  move, mv        moves files or directories
 
 Run 'barf COMMAND --help' for more information on a command.
 
@@ -87,12 +87,12 @@ If for some reason the background process dies all operations are stored in a jo
 
 | Operation | Description |
 | --- | --- |
-| `copy` | <small>*Short: Append files and folders from the source at the remote*<br><br>Copies files and folders to the remote. Since [rsync](https://rsync.samba.org/) is used, what actually happens under the hood is a synchronization which might behave slightly different than an ordinary `cp` command. It can probably be seen more like appending; take everything at the source and put it at the remote, overwrite if necessary but remove nothing.</small> |
-| `move` | <small>*Short: Append files and folders from the source at the remote and remove at source*<br><br>Move is essentially the same as `copy` but it removes the source files and folders after the copy has completed successfully. Thus if copying locally there will be two copies of the files taking up space until the end when the source is removed.</small> |
-| `push` | <small>*Short: Make the remote exactly like the source*<br><br>Similar to `copy` but makes the remote exactly the same as the source. Files and folders found remote but not at the source will be deleted.</small> |
+| `copy` | <small>*Short: Append files and directories from the source at the remote*<br><br>Copies files and directories to the remote. Since [rsync](https://rsync.samba.org/) is used, what actually happens under the hood is a synchronization which might behave slightly different than an ordinary `cp` command. It can probably be seen more like appending; take everything at the source and put it at the remote, overwrite if necessary but remove nothing.</small> |
+| `move` | <small>*Short: Append files and directories from the source at the remote and remove at source*<br><br>Move is essentially the same as `copy` but it removes the source files and directories after the copy has completed successfully. Thus if copying locally there will be two copies of the files taking up space until the end when the source is removed.</small> |
+| `push` | <small>*Short: Make the remote exactly like the source*<br><br>Similar to `copy` but makes the remote exactly the same as the source. Files and directories found remote but not at the source will be deleted.</small> |
 | `pull` | <small>*Short: Make the source exactly like the remote*<br><br>Exactly like `push` but with source and remote inverted.</small> |
-| `backup` | <small>*Short: Create a new copy of the source at the remote*<br><br>Backup will create a new folder, named as the current date and time. It will then create hard links from the previous backup if there is one. After that it will do a `push` operation to that folder.</small> |
-| `restore` | <small>*Short: Will do a `pull` from the specified remote backup to the source*<br><br>Restore will take the specified backup at the remote and `pull` it to the source, overwriting everything at the source in the process.</small> |
+| `backup` | <small>*Short: Create a new copy of the source at the remote*<br><br>Backup will create a new directory, named as the current date and time. It will then create hard links from the previous backup if there is one. After that it will do a `push` operation to the new directory.</small> |
+| `restore` | <small>*Short: Will restore the specified remote backup at the source*<br><br>Restore will take the specified backup at the remote and `pull` it to the source, overwriting everything at the source in the process.</small> |
 
 ## Goals
 

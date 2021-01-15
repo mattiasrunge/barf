@@ -44,7 +44,7 @@ func main() {
 		}
 	})
 
-	app.Command("copy cp", "copies files or folders", func(cmd *cli.Cmd) {
+	app.Command("copy cp", "copies files or directories", func(cmd *cli.Cmd) {
 		cmd.Spec = "SRC... DST"
 		src := cmd.StringsArg("SRC", nil, "Source to copy")
 		dst := cmd.StringArg("DST", "", "Destination where to copy to")
@@ -59,7 +59,7 @@ func main() {
 		}
 	})
 
-	app.Command("move mv", "moves files or folders", func(cmd *cli.Cmd) {
+	app.Command("move mv", "moves files or directories", func(cmd *cli.Cmd) {
 		cmd.Spec = "SRC... DST"
 		src := cmd.StringsArg("SRC", nil, "Source to move")
 		dst := cmd.StringArg("DST", "", "Destination where to move to")
