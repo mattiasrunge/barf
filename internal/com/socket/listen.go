@@ -40,6 +40,8 @@ func Listen() error {
 			if err != nil {
 				bus.Publish("error", err)
 				bus.Publish("close")
+
+				return
 			}
 
 			fmt.Println("New client connected")

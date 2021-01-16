@@ -30,6 +30,9 @@ func main() {
 	// TODO: Don't show progress bar at all, fire and forget operation for scripts
 	// TODO: JSON output for scripting
 	// TODO: Monitor with flag to keep open and listen for new operations
+	// TODO: List operations with ids
+	// TODO: List history
+	// TODO: Abort operation
 
 	app.Command("monitor m", "monitors active operations", func(cmd *cli.Cmd) {
 		cmd.Spec = "[IDS...]"
