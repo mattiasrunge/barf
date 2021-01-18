@@ -5,6 +5,7 @@ import (
 	"os"
 	"os/user"
 	"path"
+	"runtime"
 )
 
 const DaemonVariable = "_BARF_DAEMON_"
@@ -14,6 +15,7 @@ const Description = "A tool for doing robust file operations."
 var Version = "v0.0.0"
 var BuildTime = "unknown"
 var BuildChecksum = "unknown"
+var BuildName = runtime.GOOS + "-" + runtime.GOARCH
 var production = "no"
 
 var ConfigDir = ""

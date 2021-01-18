@@ -6,6 +6,7 @@ V=$1
 set -x
 
 function build {
+    NAME="$GOOS-$GOARCH$GOARM"
     echo "Building barf ${V} with: GOOS=$GOOS GOARCH=$GOARCH GOARM=$GOARM"
     bash -c "\
         go build -a \
@@ -13,18 +14,19 @@ function build {
             -s -w \
             -X 'barf/internal/config.production=yes' \
             -X 'barf/internal/config.Version=$V' \
+            -X 'barf/internal/config.BuildName=$NAME' \
             -X 'barf/internal/config.BuildTime=$(date)' \
             -X 'barf/internal/config.BuildChecksum=$(git rev-parse HEAD)'\
         \" \
-        -o \"$DIR/../build/$GOOS-$GOARCH$GOARM/barf\" $DIR/../cmd/barf/main.go"
+        -o \"$DIR/../build/$NAME/barf\" $DIR/../cmd/barf/main.go"
     bash -c "\
-        pushd $DIR/../build/$GOOS-$GOARCH$GOARM &> /dev/null && \
-        tar -czf ../barf-$GOOS-$GOARCH$GOARM.tar.gz * && \
+        pushd $DIR/../build/$NAME &> /dev/null && \
+        tar -czf ../barf-$NAME.tar.gz * && \
         popd &> /dev/null\
     "
-    echo "$DIR/../build/barf-$GOOS-$GOARCH$GOARM.tar.gz"
-    SIZE=$(stat -c%s "$DIR/../build/barf-$GOOS-$GOARCH$GOARM.tar.gz")
-    echo "barf-$GOOS-$GOARCH$GOARM.tar.gz ($SIZE bytes) complete!"
+    echo "$DIR/../build/barf-$NAME.tar.gz"
+    SIZE=$(stat -c%s "$DIR/../build/barf-$NAME.tar.gz")
+    echo "barf-$NAME.tar.gz ($SIZE bytes) complete!"
     echo ""
 }
 
