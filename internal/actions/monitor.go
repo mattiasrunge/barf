@@ -1,7 +1,11 @@
 package actions
 
 import (
+	"fmt"
+	"sync"
+
 	"barf/internal/com/client"
+	"barf/internal/op"
 	"barf/internal/typeconv"
 	"barf/internal/ui"
 	"barf/internal/utils"
@@ -29,7 +33,20 @@ func Monitor(args map[string]interface{}) error {
 		}
 	}
 
-	// TODO: if len(idx) == 0 listen for new operations and don't exit
+	if len(idx) == 0 {
+		client.OnOperationCreated(func(operation *op.Operation) {
+			err = ui.AddOperation(operation)
+
+			if err != nil {
+				fmt.Println(err)
+			}
+		})
+
+		var wg sync.WaitGroup
+
+		wg.Add(1)
+		wg.Wait() // Wait until user aborts...
+	}
 
 	return nil
 }

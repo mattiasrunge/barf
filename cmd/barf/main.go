@@ -29,12 +29,19 @@ func main() {
 	// TODO: Check for updates and download and install updated binary
 	// TODO: Don't show progress bar at all, fire and forget operation for scripts
 	// TODO: JSON output for scripting
-	// TODO: Monitor with flag to keep open and listen for new operations
-	// TODO: List operations with ids
 	// TODO: List history
 	// TODO: Abort operation
+	// TODO: Version negotioation with daemon, restart daemon if wrong version
 
-	app.Command("monitor m", "monitors active operations", func(cmd *cli.Cmd) {
+	app.Command("list l", "list active operations", func(cmd *cli.Cmd) {
+		cmd.Action = func() {
+			run.StartCLI(*width, func() error {
+				return actions.List(map[string]interface{}{})
+			})
+		}
+	})
+
+	app.Command("monitor m", "monitors active operations, if ids are given it will exit when those operations have finished", func(cmd *cli.Cmd) {
 		cmd.Spec = "[IDS...]"
 		ids := cmd.StringsArg("IDS", nil, "IDs to monitor")
 
@@ -42,6 +49,19 @@ func main() {
 			run.StartCLI(*width, func() error {
 				return actions.Monitor(map[string]interface{}{
 					"ids": ids,
+				})
+			})
+		}
+	})
+
+	app.Command("abort a", "aborts an active operation", func(cmd *cli.Cmd) {
+		cmd.Spec = "ID"
+		id := cmd.StringArg("ID", "", "ID to abort")
+
+		cmd.Action = func() {
+			run.StartCLI(*width, func() error {
+				return actions.Abort(map[string]interface{}{
+					"id": id,
 				})
 			})
 		}

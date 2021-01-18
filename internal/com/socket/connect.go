@@ -27,8 +27,6 @@ func Connect() error {
 
 	wg.Add(1)
 
-	bus.Publish("new", clientSocket)
-
 	clientSocket.OnClose(func() {
 		bus.Publish("close")
 	})

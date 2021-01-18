@@ -1,10 +1,11 @@
 package channel
 
 import (
-	"barf/internal/com/protocol"
-	"barf/internal/com/socket"
 	"fmt"
 	"os"
+
+	"barf/internal/com/protocol"
+	"barf/internal/com/socket"
 
 	"github.com/asaskevich/EventBus"
 )

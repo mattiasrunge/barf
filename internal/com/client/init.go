@@ -22,7 +22,7 @@ func onMessage(socket *socket.Socket, message *protocol.Message) {
 	} else if message.EventStatus != nil {
 		bus.Publish("status", message.EventStatus.OperationID, message.EventStatus.Status)
 	} else if message.EventOperation != nil {
-		bus.Publish("operation", &message.EventOperation.Operation)
+		bus.Publish("operation", message.EventOperation.Operation)
 	}
 }
 

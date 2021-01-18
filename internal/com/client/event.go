@@ -2,7 +2,7 @@ package client
 
 import "barf/internal/op"
 
-type operationCreatedHandler func(op.Operation)
+type operationCreatedHandler func(*op.Operation)
 type operationStatusHandler func(op.OperationID, *op.OperationStatus)
 
 // OnOperationCreated registers handler for operation created events
