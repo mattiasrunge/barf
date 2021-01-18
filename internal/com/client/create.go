@@ -11,16 +11,8 @@ import (
 
 // CreateOperation sends a create request
 func CreateOperation(opType op.OperationType, args op.OperationArgs) (*op.Operation, error) {
-	requestID := protocol.GenerateRequestID()
-	message := protocol.Message{
-		RequestCreate: &protocol.RequestCreate{
-			ID:   requestID,
-			Type: opType,
-			Args: args,
-		},
-	}
-
-	err := channel.Broadcast(&message)
+	message := protocol.NewRequestCreateMessage(opType, args)
+	err := channel.Broadcast(message)
 
 	if err != nil {
 		return nil, err
@@ -32,7 +24,7 @@ func CreateOperation(opType op.OperationType, args op.OperationArgs) (*op.Operat
 		c1 <- response
 	}
 
-	bus.SubscribeOnce(string(requestID), onResponse)
+	bus.SubscribeOnce(string(message.RequestCreate.ID), onResponse)
 
 	select {
 	case res := <-c1:
@@ -42,7 +34,7 @@ func CreateOperation(opType op.OperationType, args op.OperationArgs) (*op.Operat
 
 		return nil, errors.New(string(res.Message))
 	case <-time.After(10 * time.Second):
-		bus.Unsubscribe(string(requestID), onResponse)
-		return nil, errors.New("Timeout")
+		bus.Unsubscribe(string(message.RequestCreate.ID), onResponse)
+		return nil, errors.New("timeout")
 	}
 }

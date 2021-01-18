@@ -11,15 +11,8 @@ import (
 
 // AbortOperation sends a abort request
 func AbortOperation(operationID op.OperationID) error {
-	requestID := protocol.GenerateRequestID()
-	message := protocol.Message{
-		RequestAbort: &protocol.RequestAbort{
-			ID:          requestID,
-			OperationID: operationID,
-		},
-	}
-
-	err := channel.Broadcast(&message)
+	message := protocol.NewRequestAbortMessage(operationID)
+	err := channel.Broadcast(message)
 
 	if err != nil {
 		return err
@@ -31,7 +24,7 @@ func AbortOperation(operationID op.OperationID) error {
 		c1 <- response
 	}
 
-	bus.SubscribeOnce(string(requestID), onResponse)
+	bus.SubscribeOnce(string(message.RequestAbort.ID), onResponse)
 
 	select {
 	case res := <-c1:
@@ -41,7 +34,7 @@ func AbortOperation(operationID op.OperationID) error {
 
 		return errors.New(string(res.Message))
 	case <-time.After(10 * time.Second):
-		bus.Unsubscribe(string(requestID), onResponse)
-		return errors.New("Timeout")
+		bus.Unsubscribe(string(message.RequestAbort.ID), onResponse)
+		return errors.New("timeout")
 	}
 }

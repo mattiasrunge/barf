@@ -11,14 +11,8 @@ import (
 
 // ListOperations sends a list request
 func ListOperations() ([]*op.Operation, error) {
-	requestID := protocol.GenerateRequestID()
-	message := protocol.Message{
-		RequestList: &protocol.RequestList{
-			ID: requestID,
-		},
-	}
-
-	err := channel.Broadcast(&message)
+	message := protocol.NewRequestListMessage()
+	err := channel.Broadcast(message)
 
 	if err != nil {
 		return nil, err
@@ -30,7 +24,7 @@ func ListOperations() ([]*op.Operation, error) {
 		c1 <- response
 	}
 
-	bus.SubscribeOnce(string(requestID), onResponse)
+	bus.SubscribeOnce(string(message.RequestList.ID), onResponse)
 
 	select {
 	case res := <-c1:
@@ -40,7 +34,7 @@ func ListOperations() ([]*op.Operation, error) {
 
 		return nil, errors.New(string(res.Message))
 	case <-time.After(10 * time.Second):
-		bus.Unsubscribe(string(requestID), onResponse)
-		return nil, errors.New("Timeout")
+		bus.Unsubscribe(string(message.RequestList.ID), onResponse)
+		return nil, errors.New("timeout")
 	}
 }

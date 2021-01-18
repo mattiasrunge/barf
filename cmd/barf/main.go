@@ -25,14 +25,6 @@ func main() {
 		})
 	}
 
-	// TODO: --log, -l flag to output raw rsync stdout/stderr with the progressbar on bottom... how to handle multi monitor... log only a few lines for each or only support on single monitor?
-	// TODO: Check for updates and download and install updated binary
-	// TODO: Don't show progress bar at all, fire and forget operation for scripts
-	// TODO: JSON output for scripting
-	// TODO: List history
-	// TODO: Abort operation
-	// TODO: Version negotioation with daemon, restart daemon if wrong version
-
 	app.Command("list l", "list active operations", func(cmd *cli.Cmd) {
 		cmd.Action = func() {
 			run.StartCLI(*width, func() error {

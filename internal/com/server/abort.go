@@ -10,15 +10,8 @@ import (
 )
 
 func onRequestAbortError(socket *socket.Socket, requestID protocol.RequestID, resultMessage string) {
-	message := protocol.Message{
-		ResponseAbort: &protocol.ResponseAbort{
-			ID:      requestID,
-			Result:  protocol.ResponseError,
-			Message: protocol.ResponseMessage(resultMessage),
-		},
-	}
-
-	err := channel.Send(socket, &message)
+	message := protocol.NewResponseAbortMessage(requestID, protocol.ResponseError, protocol.ResponseMessage(resultMessage))
+	err := channel.Send(socket, message)
 
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
@@ -40,14 +33,9 @@ func onRequestAbort(socket *socket.Socket, requestAbort *protocol.RequestAbort) 
 		return
 	}
 
-	message := protocol.Message{
-		ResponseAbort: &protocol.ResponseAbort{
-			ID:     requestAbort.ID,
-			Result: protocol.ResponseOk,
-		},
-	}
+	message := protocol.NewResponseAbortMessage(requestAbort.ID, protocol.ResponseOk, "")
 
-	err = channel.Send(socket, &message)
+	err = channel.Send(socket, message)
 
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)

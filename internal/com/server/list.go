@@ -10,15 +10,8 @@ import (
 )
 
 func onRequestListError(socket *socket.Socket, requestID protocol.RequestID, resultMessage string) {
-	message := protocol.Message{
-		ResponseList: &protocol.ResponseList{
-			ID:      requestID,
-			Result:  protocol.ResponseError,
-			Message: protocol.ResponseMessage(resultMessage),
-		},
-	}
-
-	err := channel.Send(socket, &message)
+	message := protocol.NewResponseListMessage(requestID, protocol.ResponseError, protocol.ResponseMessage(resultMessage), nil)
+	err := channel.Send(socket, message)
 
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
@@ -40,15 +33,8 @@ func onRequestList(socket *socket.Socket, requestList *protocol.RequestList) {
 		return
 	}
 
-	message := protocol.Message{
-		ResponseList: &protocol.ResponseList{
-			ID:         requestList.ID,
-			Result:     protocol.ResponseOk,
-			Operations: operations,
-		},
-	}
-
-	err = channel.Send(socket, &message)
+	message := protocol.NewResponseListMessage(requestList.ID, protocol.ResponseOk, "", operations)
+	err = channel.Send(socket, message)
 
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)

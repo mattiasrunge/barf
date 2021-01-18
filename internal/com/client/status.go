@@ -11,15 +11,8 @@ import (
 
 // OperationStatus sends a status request
 func OperationStatus(operationID op.OperationID) (*op.OperationStatus, error) {
-	requestID := protocol.GenerateRequestID()
-	message := protocol.Message{
-		RequestStatus: &protocol.RequestStatus{
-			ID:          requestID,
-			OperationID: operationID,
-		},
-	}
-
-	err := channel.Broadcast(&message)
+	message := protocol.NewRequestStatusMessage(operationID)
+	err := channel.Broadcast(message)
 
 	if err != nil {
 		return nil, err
@@ -31,7 +24,7 @@ func OperationStatus(operationID op.OperationID) (*op.OperationStatus, error) {
 		c1 <- response
 	}
 
-	bus.SubscribeOnce(string(requestID), onResponse)
+	bus.SubscribeOnce(string(message.RequestStatus.ID), onResponse)
 
 	select {
 	case res := <-c1:
@@ -41,7 +34,7 @@ func OperationStatus(operationID op.OperationID) (*op.OperationStatus, error) {
 
 		return nil, errors.New(string(res.Message))
 	case <-time.After(10 * time.Second):
-		bus.Unsubscribe(string(requestID), onResponse)
-		return nil, errors.New("Timeout")
+		bus.Unsubscribe(string(message.RequestStatus.ID), onResponse)
+		return nil, errors.New("timeout")
 	}
 }

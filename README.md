@@ -21,6 +21,26 @@ BARF is a CLI tool written for doing robust file operations. Under the hood it u
 
 This project is still in the early phases, try if you wish but not all of the features and operations are implemented yet.
 
+### TODO
+
+- [ ] Implement `push` operation
+- [ ] Implement `pull` operation
+- [ ] Implement `backup` operation
+- [ ] Implement `restore` operation
+- [ ] Add version to socket protocol and restart daemon if mismatch
+- [ ] Option to output JSON when used in scripts
+- [ ] Implement update to check and update *barf*
+- [ ] Possibility to output live logging from rsync, like tail
+- [ ] Create a better CI workflow
+- [ ] Write tests
+- [ ] Handle non-color terminals gracefully
+- [ ] Improve scp/rm stuff in `move` operation
+- [ ] Bash auto complete of CLI arguments
+- [ ] Remove EventBus dep, implement own for the limited functionality used
+- [ ] Find a good bytesize dep which supports parse and humanize as we need it
+- [ ] Switch daemon logging to output time etc, via the log.Logger
+- [ ] Improve daemon logging to print operation creation and statuses
+
 ## Installation
 
 ```bash

@@ -4,15 +4,13 @@ import (
 	"github.com/rs/xid"
 )
 
-// GenerateEventID creates a unique event id
-func GenerateEventID() EventID {
+func generateEventID() EventID {
 	id := xid.New()
 
 	return EventID(id.String())
 }
 
-// GenerateRequestID creates a unique request id
-func GenerateRequestID() RequestID {
+func generateRequestID() RequestID {
 	id := xid.New()
 
 	return RequestID(id.String())

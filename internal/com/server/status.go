@@ -10,15 +10,8 @@ import (
 )
 
 func onRequestStatusError(socket *socket.Socket, requestID protocol.RequestID, resultMessage string) {
-	message := protocol.Message{
-		ResponseStatus: &protocol.ResponseStatus{
-			ID:      requestID,
-			Result:  protocol.ResponseError,
-			Message: protocol.ResponseMessage(resultMessage),
-		},
-	}
-
-	err := channel.Send(socket, &message)
+	message := protocol.NewResponseStatusMessage(requestID, protocol.ResponseError, protocol.ResponseMessage(resultMessage), nil)
+	err := channel.Send(socket, message)
 
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
@@ -40,15 +33,8 @@ func onRequestStatus(socket *socket.Socket, requestStatus *protocol.RequestStatu
 		return
 	}
 
-	message := protocol.Message{
-		ResponseStatus: &protocol.ResponseStatus{
-			ID:     requestStatus.ID,
-			Result: protocol.ResponseOk,
-			Status: status,
-		},
-	}
-
-	err = channel.Send(socket, &message)
+	message := protocol.NewResponseStatusMessage(requestStatus.ID, protocol.ResponseOk, "", status)
+	err = channel.Send(socket, message)
 
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
