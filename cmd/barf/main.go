@@ -41,7 +41,9 @@ func main() {
 		}
 	})
 
-	app.Command("monitor m", "monitors active operations, if ids are given it will exit when those operations have finished", func(cmd *cli.Cmd) {
+	app.Command("monitor m", "monitors active operations", func(cmd *cli.Cmd) {
+		cmd.LongDesc = "monitors active operations, if ids are given it will exit when those operations have finished"
+
 		cmd.Spec = "[IDS...]"
 		ids := cmd.StringsArg("IDS", nil, "IDs to monitor")
 

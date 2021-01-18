@@ -47,12 +47,13 @@ Options:
   -w, --width,    terminal width to use, if not set (or zero) it will be auto detected and failing that set to 132 (default 0)
 
 Commands:
+  list, l         list active operations
   monitor, m      monitors active operations
+  abort, a        aborts an active operation
   copy, cp        copies files or directories
   move, mv        moves files or directories
 
 Run 'barf COMMAND --help' for more information on a command.
-
 ```
 
 ## Features
