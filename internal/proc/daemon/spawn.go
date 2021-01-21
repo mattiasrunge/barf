@@ -48,6 +48,23 @@ func IsRunning() bool {
 	return isAlive(pid)
 }
 
+// Stop stops the background process if it is running, best effort
+func Stop() {
+	pid, err := pidfile.Read()
+
+	if err != nil {
+		return
+	}
+
+	process, err := os.FindProcess(pid)
+
+	if err != nil {
+		return
+	}
+
+	_ = process.Signal(syscall.SIGTERM)
+}
+
 // Spawn spawns a new daemon process if none is running
 func Spawn() error {
 	if IsRunning() {

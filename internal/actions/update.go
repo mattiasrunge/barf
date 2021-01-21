@@ -1,6 +1,11 @@
 package actions
 
-import "barf/internal/update"
+import (
+	"fmt"
+
+	"barf/internal/proc/daemon"
+	"barf/internal/update"
+)
 
 // Update checks for an update
 func Update(args map[string]interface{}) error {
@@ -10,7 +15,9 @@ func Update(args map[string]interface{}) error {
 		return err
 	}
 
-	// TODO: Restart daemon
+	fmt.Println("Stopping daemon process...")
+	daemon.Stop()
 
-	return nil
+	fmt.Println("Starting daemon process...")
+	return daemon.Spawn()
 }

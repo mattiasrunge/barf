@@ -106,6 +106,17 @@ func main() {
 		})
 	}
 
+	app.Command("stop s", "stop background process", func(cmd *cli.Cmd) {
+		cmd.Action = func() {
+			err := actions.Stop(map[string]interface{}{})
+
+			if err != nil {
+				fmt.Println(err)
+				os.Exit(255)
+			}
+		}
+	})
+
 	app.Command("update u", "check for updates", func(cmd *cli.Cmd) {
 		cmd.Action = func() {
 			err := actions.Update(map[string]interface{}{})
