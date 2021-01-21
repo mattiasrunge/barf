@@ -23,8 +23,6 @@ This project is still in the early phases, try if you wish but not all of the fe
 
 ### TODO
 
-- [ ] Implement `push` operation
-- [ ] Implement `pull` operation
 - [ ] Implement `backup` operation
 - [ ] Implement `restore` operation
 - [ ] Restart daemon if version mismatch
@@ -77,6 +75,9 @@ Commands:
   abort, a        aborts an active operation
   copy, cp        copies files or directories
   move, mv        moves files or directories
+  push            mirrors source directory in destination directory
+  pull            mirrors dst directory in src directory
+  stop, s         stop background process
   update, u       check for updates
 
 Run 'barf COMMAND --help' for more information on a command.

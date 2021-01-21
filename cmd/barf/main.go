@@ -63,8 +63,8 @@ func main() {
 
 	app.Command("copy cp", "copies files or directories", func(cmd *cli.Cmd) {
 		cmd.Spec = "SRC... DST"
-		src := cmd.StringsArg("SRC", nil, "Source to copy")
-		dst := cmd.StringArg("DST", "", "Destination where to copy to")
+		src := cmd.StringsArg("SRC", nil, "Source files or directories to copy")
+		dst := cmd.StringArg("DST", "", "Destination to copy to")
 
 		cmd.Action = func() {
 			run.StartCLI(*width, func() error {
@@ -78,12 +78,42 @@ func main() {
 
 	app.Command("move mv", "moves files or directories", func(cmd *cli.Cmd) {
 		cmd.Spec = "SRC... DST"
-		src := cmd.StringsArg("SRC", nil, "Source to move")
-		dst := cmd.StringArg("DST", "", "Destination where to move to")
+		src := cmd.StringsArg("SRC", nil, "Source files or directories to move")
+		dst := cmd.StringArg("DST", "", "Destination to move to")
 
 		cmd.Action = func() {
 			run.StartCLI(*width, func() error {
 				return actions.Move(map[string]interface{}{
+					"src": src,
+					"dst": dst,
+				})
+			})
+		}
+	})
+
+	app.Command("push", "mirrors source directory in destination directory", func(cmd *cli.Cmd) {
+		cmd.Spec = "SRC DST"
+		src := cmd.StringArg("SRC", "", "Source directory to read from")
+		dst := cmd.StringArg("DST", "", "Destination directory to update")
+
+		cmd.Action = func() {
+			run.StartCLI(*width, func() error {
+				return actions.Push(map[string]interface{}{
+					"src": src,
+					"dst": dst,
+				})
+			})
+		}
+	})
+
+	app.Command("pull", "mirrors dst directory in src directory", func(cmd *cli.Cmd) {
+		cmd.Spec = "SRC DST"
+		src := cmd.StringArg("SRC", "", "Source directory to update")
+		dst := cmd.StringArg("DST", "", "Destination directory to to read from")
+
+		cmd.Action = func() {
+			run.StartCLI(*width, func() error {
+				return actions.Pull(map[string]interface{}{
 					"src": src,
 					"dst": dst,
 				})

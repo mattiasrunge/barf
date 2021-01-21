@@ -31,6 +31,10 @@ func NewRunner(operation *op.Operation) (Runner, error) {
 		r = &copyRunner{}
 	} else if operation.Type == op.OpMove {
 		r = &moveRunner{}
+	} else if operation.Type == op.OpPush {
+		r = &pushRunner{}
+	} else if operation.Type == op.OpPull {
+		r = &pullRunner{}
 	} else {
 		return nil, errors.New("Unknown operation type")
 	}
