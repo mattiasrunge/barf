@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 case $(uname -sm) in
-"Linux x86_64") target="linux-amd64"
+"Linux x86_64") target="linux-amd64" ;;
 "Linux armv5tel") target="linux-arm5" ;;
 "Linux armv7l") target="linux-arm7" ;;
 *) target="unknown" ;;
