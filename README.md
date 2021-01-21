@@ -45,7 +45,7 @@ This project is still in the early phases, try if you wish but not all of the fe
 
 ```bash
 # Using the install script, installing in /usr/local/bin
-sudo curl -fsSL https://raw.githubusercontent.com/mattiasrunge/barf/main/scripts/install.sh | bash
+curl -sL https://raw.githubusercontent.com/mattiasrunge/barf/main/scripts/install.sh | sudo -E bash -
 
 # For manual installation
 
