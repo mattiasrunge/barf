@@ -108,9 +108,12 @@ func main() {
 
 	app.Command("update u", "check for updates", func(cmd *cli.Cmd) {
 		cmd.Action = func() {
-			run.StartCLI(*width, func() error {
-				return actions.Update(map[string]interface{}{})
-			})
+			err := actions.Update(map[string]interface{}{})
+
+			if err != nil {
+				fmt.Println(err)
+				os.Exit(255)
+			}
 		}
 	})
 

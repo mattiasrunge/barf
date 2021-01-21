@@ -17,7 +17,6 @@ func StartCLI(width int, action func() error) {
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(255)
-		return
 	}
 
 	err = socket.Connect()
@@ -25,7 +24,6 @@ func StartCLI(width int, action func() error) {
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(255)
-		return
 	}
 
 	socket.OnClose(func() {
@@ -42,7 +40,6 @@ func StartCLI(width int, action func() error) {
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(255)
-		return
 	}
 
 	exitCode := ui.Wait()

@@ -27,9 +27,8 @@ This project is still in the early phases, try if you wish but not all of the fe
 - [ ] Implement `pull` operation
 - [ ] Implement `backup` operation
 - [ ] Implement `restore` operation
-- [ ] Add version to socket protocol and restart daemon if mismatch
+- [ ] Restart daemon if version mismatch
 - [ ] Option to output JSON when used in scripts
-- [ ] Implement update to check and update *barf*
 - [ ] Possibility to output live logging from rsync, like tail
 - [ ] Create a better CI workflow
 - [ ] Write tests
@@ -38,12 +37,18 @@ This project is still in the early phases, try if you wish but not all of the fe
 - [ ] Bash auto complete of CLI arguments
 - [ ] Remove EventBus dep, implement own for the limited functionality used
 - [ ] Find a good bytesize dep which supports parse and humanize as we need it
-- [ ] Switch daemon logging to output time etc, via the log.Logger
+- [ ] Improve daemon logging to output time etc, via the log.Logger
 - [ ] Improve daemon logging to print operation creation and statuses
+- [ ] Investigate if we should be a download tools as well... use curl or wget and present a nice progressbar?
 
 ## Installation
 
 ```bash
+# Using the install script, installing in /usr/local/bin
+curl -fsSL https://raw.githubusercontent.com/mattiasrunge/barf/main/scripts/install.sh | bash
+
+# For manual installation
+
 # Linux amd64
 sudo bash -c 'curl -L https://github.com/mattiasrunge/barf/releases/latest/download/barf-linux-amd64.tar.gz | tar xvz -C /usr/local/bin'
 
@@ -72,8 +77,10 @@ Commands:
   abort, a        aborts an active operation
   copy, cp        copies files or directories
   move, mv        moves files or directories
+  update, u       check for updates
 
 Run 'barf COMMAND --help' for more information on a command.
+
 ```
 
 ## Features

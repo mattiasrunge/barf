@@ -3,6 +3,7 @@ package update
 import (
 	"archive/tar"
 	"compress/gzip"
+	"errors"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -12,6 +13,8 @@ import (
 
 	"barf/internal/config"
 	"barf/internal/utils"
+
+	"golang.org/x/sys/unix"
 )
 
 type githubAsset struct {
@@ -26,31 +29,59 @@ type githubRelease struct {
 
 // Update updates the binary
 func Update() error {
+	err := checkWriteAccess()
+
+	if err != nil {
+		return err
+	}
+
 	release, err := getLatestRelease()
 
 	if err != nil {
 		return err
 	}
 
+	version := strings.TrimSuffix(release.TagName, "-release")
+
+	if version == config.Version {
+		fmt.Println("No new version found")
+		return nil
+
+	}
+
+	fmt.Println("Found new version:", version)
+
 	asset := getReleaseAsset(release)
 
-	if asset != nil {
-		fmt.Println("Found new version:", release.TagName)
-
-		file, err := ioutil.TempFile("", release.TagName+"-*")
-
-		if err != nil {
-			return err
-		}
-
-		err = downloadFile(asset.URL, file.Name())
-
-		if err != nil {
-			return err
-		}
-
-		return upgradeExecutable(file.Name())
+	if asset == nil {
+		return errors.New("no files found on release")
 	}
+
+	file, err := ioutil.TempFile("", version+"-*")
+
+	if err != nil {
+		return err
+	}
+
+	err = downloadFile(asset.URL, file.Name())
+
+	if err != nil {
+		return err
+	}
+
+	err = upgradeExecutable(file.Name())
+
+	if err != nil {
+		return err
+	}
+
+	name, err := os.Executable()
+
+	if err != nil {
+		return err
+	}
+
+	fmt.Printf("New version installed at %s\n", name)
 
 	return nil
 }
@@ -68,9 +99,7 @@ func upgradeExecutable(new string) error {
 		return err
 	}
 
-	fmt.Println(fmt.Sprintf("To upgrade run: sudo mv %s %s", new, name))
-
-	return nil
+	return os.Rename(new, name)
 }
 
 func getReleaseAsset(release *githubRelease) *githubAsset {
@@ -150,4 +179,14 @@ func extractBinary(gzipStream io.Reader, target string) error {
 	}
 
 	return nil
+}
+
+func checkWriteAccess() error {
+	name, err := os.Executable()
+
+	if err != nil {
+		return err
+	}
+
+	return unix.Access(name, unix.W_OK)
 }
