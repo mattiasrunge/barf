@@ -1,4 +1,7 @@
-#!/bin/bash -e
+#!/bin/bash
+
+set -e
+set -o pipefail
 
 case $(uname -sm) in
 "Linux x86_64") target="linux-amd64" ;;
@@ -12,7 +15,7 @@ if [ "$target" == "unknown" ]; then
     exit 1
 fi
 
-curl --fail --progress-bar -L https://github.com/mattiasrunge/barf/releases/latest/download/barf-$target.tar.gz | tar xvz -C /usr/local/bin
+curl -L https://github.com/mattiasrunge/barf/releases/latest/download/barf-$target.tar.gz | tar xvz -C /usr/local/bin
 
 echo "barf was downloaded and installed at /usr/local/bin"
 
