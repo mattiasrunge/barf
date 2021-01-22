@@ -1,4 +1,4 @@
-package run
+package daemon
 
 import (
 	"fmt"
@@ -6,7 +6,7 @@ import (
 
 	"barf/internal/com/socket"
 	"barf/internal/config"
-	"barf/internal/proc/daemon"
+	"barf/internal/proc/daemonctrl"
 	"barf/internal/proc/life"
 	"barf/internal/proc/logfile"
 	"barf/internal/proc/pidfile"
@@ -29,7 +29,7 @@ func CheckDaemon() {
 }
 
 func startDaemon() error {
-	if daemon.IsRunning() {
+	if daemonctrl.IsRunning() {
 		fmt.Println("Daemon process already running...")
 		return nil
 	}

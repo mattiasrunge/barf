@@ -3,11 +3,14 @@ package actions
 import (
 	"fmt"
 
+	"barf/internal/cli"
 	"barf/internal/com/client"
 )
 
 // List will print a list of active operations
 func List(_ map[string]interface{}) error {
+	cli.Start()
+
 	operations, err := client.ListOperations()
 
 	if err != nil {
@@ -23,6 +26,8 @@ func List(_ map[string]interface{}) error {
 
 		fmt.Printf("\n")
 	}
+
+	cli.Finish()
 
 	return nil
 }

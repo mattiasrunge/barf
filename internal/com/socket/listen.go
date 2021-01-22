@@ -39,7 +39,7 @@ func Listen() error {
 
 			if err != nil {
 				bus.Publish("error", err)
-				bus.Publish("close")
+				bus.Publish("close", false)
 
 				return
 			}
@@ -47,7 +47,7 @@ func Listen() error {
 			fmt.Println("New client connected")
 			socket := newSocket(connection)
 
-			socket.bus.Subscribe("close", func() {
+			socket.bus.Subscribe("close", func(_ bool) {
 				fmt.Println("Client disconnected")
 			})
 

@@ -1,7 +1,7 @@
 package socket
 
 type errorHandler func(error)
-type closeHandler func()
+type closeHandler func(bool)
 type socketHandler func(*Socket)
 
 // OnError registers handler for error events

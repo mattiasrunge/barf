@@ -51,16 +51,23 @@ func AddOperation(operation *op.Operation) error {
 }
 
 // Start monitoring operations
-func Start(w int) {
+func Start() {
 	writer = goterminal.New(os.Stdout)
 
-	if w == 0 {
+	if width <= 0 {
 		width, _ = writer.GetTermDimensions()
-	} else {
-		width = w
+	}
+
+	if width <= 0 {
+		width = 132
 	}
 
 	client.OnOperationStatus(onOperationStatus)
+}
+
+// SetWidth sets the terminal width
+func SetWidth(w int) {
+	width = w
 }
 
 // Wait for all operations to complete

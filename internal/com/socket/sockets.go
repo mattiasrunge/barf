@@ -13,7 +13,7 @@ func registerSocket(socket *Socket) {
 		fmt.Println("Socket encountered error", err)
 	})
 
-	socket.OnClose(func() {
+	socket.OnClose(func(_ bool) {
 		unregisterSocket(socket)
 	})
 }

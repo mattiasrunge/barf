@@ -12,16 +12,18 @@ import (
 
 // Socket represents a data channel
 type Socket struct {
-	connection net.Conn
-	bus        EventBus.Bus
-	wg         sync.WaitGroup
+	connection  net.Conn
+	bus         EventBus.Bus
+	wg          sync.WaitGroup
+	normalClose bool
 }
 
 func newSocket(c net.Conn) *Socket {
 	socket := Socket{
-		connection: c,
-		bus:        EventBus.New(),
-		wg:         sync.WaitGroup{},
+		connection:  c,
+		bus:         EventBus.New(),
+		wg:          sync.WaitGroup{},
+		normalClose: false,
 	}
 
 	socket.wg.Add(1)
@@ -43,7 +45,7 @@ func newSocket(c net.Conn) *Socket {
 			socket.bus.Publish("error", err)
 		}
 
-		socket.bus.Publish("close")
+		socket.bus.Publish("close", socket.normalClose)
 		socket.wg.Done()
 	}()
 
@@ -54,6 +56,7 @@ func newSocket(c net.Conn) *Socket {
 
 // Close the socket
 func (s *Socket) Close() error {
+	s.normalClose = true
 	return s.connection.Close()
 }
 

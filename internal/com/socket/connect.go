@@ -27,8 +27,8 @@ func Connect() error {
 
 	wg.Add(1)
 
-	clientSocket.OnClose(func() {
-		bus.Publish("close")
+	clientSocket.OnClose(func(normalClose bool) {
+		bus.Publish("close", normalClose)
 	})
 
 	clientSocket.OnError(func(err error) {

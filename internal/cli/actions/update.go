@@ -3,7 +3,7 @@ package actions
 import (
 	"fmt"
 
-	"barf/internal/proc/daemon"
+	"barf/internal/proc/daemonctrl"
 	"barf/internal/update"
 )
 
@@ -16,8 +16,8 @@ func Update(args map[string]interface{}) error {
 	}
 
 	fmt.Println("Stopping daemon process...")
-	daemon.Stop()
+	daemonctrl.Stop()
 
 	fmt.Println("Starting daemon process...")
-	return daemon.Spawn()
+	return daemonctrl.Spawn()
 }

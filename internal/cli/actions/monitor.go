@@ -4,15 +4,18 @@ import (
 	"fmt"
 	"sync"
 
+	"barf/internal/cli"
+	"barf/internal/cli/ui"
 	"barf/internal/com/client"
 	"barf/internal/op"
 	"barf/internal/typeconv"
-	"barf/internal/ui"
 	"barf/internal/utils"
 )
 
 // Monitor starts monitoring all or specified operations
 func Monitor(args map[string]interface{}) error {
+	cli.Start()
+
 	idxArray, _ := typeconv.ToArray(args["ids"])
 	strIdx := typeconv.ToStringArray(idxArray)
 	idx := typeconv.StringArray2IntArray(strIdx)
@@ -47,6 +50,8 @@ func Monitor(args map[string]interface{}) error {
 		wg.Add(1)
 		wg.Wait() // Wait until user aborts...
 	}
+
+	cli.Finish()
 
 	return nil
 }

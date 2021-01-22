@@ -5,11 +5,14 @@ import (
 	"fmt"
 	"strconv"
 
+	"barf/internal/cli"
 	"barf/internal/com/client"
 )
 
 // Abort aborts an active operation
 func Abort(args map[string]interface{}) error {
+	cli.Start()
+
 	id := args["id"].(*string)
 	idInt, _ := strconv.Atoi(*id)
 
@@ -28,6 +31,9 @@ func Abort(args map[string]interface{}) error {
 			}
 
 			fmt.Println("Operation aborted!")
+
+			cli.Finish()
+
 			return nil
 		}
 	}

@@ -1,13 +1,16 @@
 package actions
 
 import (
+	"barf/internal/cli"
+	"barf/internal/cli/ui"
 	"barf/internal/com/client"
 	"barf/internal/op"
-	"barf/internal/ui"
 )
 
 // Dummy creates a new dummy operation
 func Dummy(args map[string]interface{}) error {
+	cli.Start()
+
 	opArgs := op.OperationArgs{
 		"iterations": args["iterations"],
 	}
@@ -18,5 +21,13 @@ func Dummy(args map[string]interface{}) error {
 		return err
 	}
 
-	return ui.AddOperation(operation)
+	err = ui.AddOperation(operation)
+
+	if err != nil {
+		return err
+	}
+
+	cli.Finish()
+
+	return nil
 }

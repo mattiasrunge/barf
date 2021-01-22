@@ -16,7 +16,7 @@ import (
 )
 
 var writer *goterminal.Writer
-var width = 132
+var width = 0
 var mu sync.Mutex
 
 func replaceAtIndex(in string, r rune, i int) string {
