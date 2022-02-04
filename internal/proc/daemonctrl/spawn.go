@@ -91,15 +91,17 @@ func Spawn() error {
 		},
 		Sys: sysproc,
 	}
-	dirname, _ := os.Getwd()
-	binary := os.Args[0]
-
-	fmt.Println("Binary:", binary)
-	if strings.Contains(binary, "/go-build") {
-		binary = "barf.sh" // For development
+	executable, err := os.Executable()
+	if err != nil {
+		return err
 	}
 
-	var executable = path.Join(dirname, binary)
+	fmt.Println("Binary:", executable)
+	if strings.Contains(os.Args[0], "/go-build") {
+		binary := "barf.sh" // For development
+		dirname, _ := os.Getwd()
+		executable = path.Join(dirname, binary)
+	}
 
 	process, err := os.StartProcess(executable, []string{executable, "background"}, &attr)
 
